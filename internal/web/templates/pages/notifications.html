@@ -1,0 +1,8 @@
+{{define "content"}}
+<div class="page-head"><div><p class="eyebrow">Inbox</p><h1>Notifications</h1></div><div class="actions"><form method="post" action="/notifications/read"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn ghost small" type="submit">Mark all read</button></form></div></div>
+<section class="card">
+<ul class="notes">
+{{range .Data.Notes}}<li class="{{if not .Read}}unread{{end}}"><a href="{{if .Link}}{{.Link}}{{else}}#{{end}}"><b>{{.Title}}</b></a><p>{{.Body}}</p><span class="mono muted">{{datetime .CreatedAt}}</span></li>{{else}}<li class="muted">Nothing here yet. SME questions, gate waits, deadline warnings and digests arrive here.</li>{{end}}
+</ul>
+</section>
+{{end}}

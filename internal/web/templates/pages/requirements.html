@@ -1,0 +1,156 @@
+{{define "content"}}
+{{$b := .Bid}}{{$f := .Data.Filters}}{{$d := .Data.Detail}}{{$pack := .Data.Pack}}
+<div class="split">
+<aside class="split-list card" id="req-list">
+  <form method="get" class="filters" role="search">
+    <input type="search" name="q" value="{{$f.q}}" placeholder="Search code or text" aria-label="Search requirements">
+    <div class="filter-row">
+      <select name="status" aria-label="Status"><option value="">Any status</option>{{range .Data.Statuses}}<option value="{{.}}" {{selected . $f.status}}>{{status .}} ({{index $.Data.Counts .}})</option>{{end}}</select>
+      <select name="category" aria-label="Category"><option value="">Any category</option>{{range $pack.Categories}}<option value="{{.ID}}" {{selected .ID $f.category}}>{{.Label}}</option>{{end}}</select>
+    </div>
+    <div class="filter-row">
+      <select name="section" aria-label="Section"><option value="">Any section</option>{{range .Data.Sections}}<option value="{{.}}" {{selected . $f.section}}>{{.}}</option>{{end}}</select>
+      <select name="flag" aria-label="Flag"><option value="">All items</option><option value="mandatory" {{selected "mandatory" $f.flag}}>Mandatory only</option><option value="unanchored" {{selected "unanchored" $f.flag}}>Unanchored</option><option value="unconfirmed" {{selected "unconfirmed" $f.flag}}>Unconfirmed</option><option value="changed" {{selected "changed" $f.flag}}>Changed by addendum</option></select>
+    </div>
+    <div class="filter-row"><button class="btn small ghost" type="submit">Filter</button><a class="mono small" href="/bids/{{$b.ID}}/requirements">clear</a><span class="muted small">{{len .Data.Reqs}} of {{.Data.Total}}</span></div>
+  </form>
+  {{if .CanAction "req.confirm"}}<form method="post" action="/bids/{{$b.ID}}/requirements/confirm" class="list-actions"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn small" type="submit" title="Confirm every extracted requirement (Gate 1)">Confirm all requirements</button></form>{{end}}
+  <ol class="req-rows">
+  {{range .Data.Reqs}}
+    {{$a := index $.Data.Answers .ID}}
+    <li class="{{if eq .ID $.Data.Sel}}selected{{end}} {{if .IsTrap}}trap{{end}}">
+      <a href="/bids/{{$b.ID}}/requirements?req={{.ID}}{{if $.Data.Query}}&amp;{{$.Data.Query}}{{end}}">
+        <span class="code mono">{{.Code}}</span>
+        <span class="txt">{{trunc .Text 96}}</span>
+        <span class="row-meta">{{template "pill" .Status}} <span class="muted">{{$pack.CategoryLabel .Category}}</span>{{if .Mandatory}} <span class="mand" title="Mandatory">M</span>{{end}}{{if ne .AnchorStatus "anchored"}} <span class="warn" title="No exact source span">⚠</span>{{end}}{{if and .ChangeState (ne .ChangeState "unchanged")}} <span class="pill warn">{{.ChangeState}}</span>{{end}}{{if $a.ConfidenceLabel}} <span class="dot-{{label $a.ConfidenceLabel}}" title="{{$a.ConfidenceLabel}}"></span>{{end}}</span>
+      </a>
+    </li>
+  {{else}}<li class="muted pad">No requirements match. {{if eq .Data.Total 0}}Upload an RFP on the overview tab to extract them.{{end}}</li>{{end}}
+  </ol>
+  {{if .CanAction "req.edit"}}
+  <details class="add-req"><summary>Add a requirement manually</summary>
+    <form method="post" action="/bids/{{$b.ID}}/requirements" class="stack">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <label>Code <input name="code" placeholder="e.g. 4.13" required></label>
+      <label>Text <textarea name="text" rows="3" required></textarea></label>
+      <label>Category <select name="category">{{range $pack.Categories}}<option value="{{.ID}}">{{.Label}}</option>{{end}}</select></label>
+      <label class="check"><input type="checkbox" name="mandatory" value="1"> Mandatory</label>
+      <button class="btn small" type="submit">Add</button>
+    </form>
+  </details>
+  {{end}}
+</aside>
+
+<section class="split-detail" id="req-detail">
+{{if not $d}}
+  {{template "empty" (dict "Title" "Select a requirement" "Why" "The detail panel shows the source span, retrieved evidence, the verified draft and the review controls.")}}
+{{else}}
+{{$r := $d.Requirement}}{{$a := $d.Answer}}
+<article class="card">
+  <header class="req-head">
+    <div>
+      <p class="eyebrow">{{$r.Section}} · {{$pack.CategoryLabel $r.Category}}{{if $r.Mandatory}} · <b>Mandatory</b>{{end}}{{if $r.IsTrap}} · <span class="pill muted" title="Synthetic trap: no evidence exists on purpose">demo trap</span>{{end}}</p>
+      <h1><span class="mono">{{$r.Code}}</span> {{template "pill" $r.Status}} {{if $a}}{{template "labelpill" $a.ConfidenceLabel}}{{end}}</h1>
+    </div>
+    <div class="meta-col mono muted">
+      <span>Owner: {{if $d.Owner.Name}}{{$d.Owner.Name}}{{else}}—{{end}}</span>
+      <span>Reviewer: {{if $d.Reviewer.Name}}{{$d.Reviewer.Name}}{{else}}—{{end}}</span>
+      <span>Source: {{if $d.SourceDoc.Name}}{{$d.SourceDoc.Name}}{{end}} {{$d.Locator}}{{if $d.AnswerCell}} · answer cell {{$d.AnswerCell}}{{end}}</span>
+      <span>Anchor: {{if eq $r.AnchorStatus "anchored"}}✓ exact span{{else}}<b class="warn">⚠ {{$r.AnchorStatus}}</b>{{end}}{{if $r.Confirmed}} · confirmed{{else}} · unconfirmed{{end}}</span>
+    </div>
+  </header>
+  <blockquote class="req-text">{{$r.Text}}</blockquote>
+  {{if $r.SourceSpan}}<details class="drawer"><summary>Source span</summary><pre class="span mono">{{$r.SourceSpan}}</pre></details>{{end}}
+
+  {{if .CanAction "req.edit"}}
+  <details class="drawer"><summary>Edit requirement</summary>
+    <form method="post" action="/requirements/{{$r.ID}}" class="form-grid">
+      <input type="hidden" name="_csrf" value="{{$.CSRF}}">
+      <label class="span2">Text <textarea name="text" rows="3">{{$r.Text}}</textarea></label>
+      <label>Category <select name="category">{{range $pack.Categories}}<option value="{{.ID}}" {{selected .ID $r.Category}}>{{.Label}}</option>{{end}}</select></label>
+      <label>Section <input name="section" value="{{$r.Section}}"></label>
+      <label>Owner <select name="owner_id"><option value="">—</option>{{range $.Data.Users}}<option value="{{.ID}}" {{selected .ID $r.OwnerID}}>{{.Name}} · {{role .Role}}</option>{{end}}</select></label>
+      <label>Reviewer <select name="reviewer_id"><option value="">—</option>{{range $.Data.Users}}<option value="{{.ID}}" {{selected .ID $r.ReviewerID}}>{{.Name}} · {{role .Role}}</option>{{end}}</select></label>
+      <label class="check"><input type="checkbox" name="mandatory" value="1" {{checked $r.Mandatory}}> Mandatory</label>
+      <label class="check"><input type="checkbox" name="confirmed" value="1" {{checked $r.Confirmed}}> Confirmed (reviewed against source)</label>
+      <div class="span2 actions"><button class="btn small" type="submit">Save</button>
+      <button class="btn small danger ghost" type="submit" formaction="/requirements/{{$r.ID}}/delete" data-confirm="Remove this requirement from the matrix?">Remove</button></div>
+    </form>
+  </details>
+  {{end}}
+</article>
+
+<div class="answer-layout">
+  <section class="card answer">
+    <header class="card-head">
+      <h2>{{if $d.Instruction}}Acknowledgement{{else}}Answer{{end}}{{if $a}} <span class="muted mono">v{{$a.Version}} · {{$a.GenerationMode}}{{if $a.ProviderID}} · {{$a.ProviderID}}{{end}}</span>{{end}}</h2>
+      <div class="actions">
+        {{if .CanAction "answer.generate"}}<form method="post" action="/requirements/{{$r.ID}}/generate" class="inline" data-busy="Drafting and verifying…"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn small ghost" type="submit">{{if $a}}Regenerate{{else}}Generate{{end}}</button></form>{{end}}
+        {{if and $a (.CanAction "answer.submit") (or (eq $a.Status "drafted") (eq $a.Status "rejected") (eq $a.Status "needs_re_review"))}}<form method="post" action="/answers/{{$a.ID}}/submit" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn small ghost" type="submit">Submit for review</button></form>{{end}}
+        {{if and $a (.CanAction "answer.approve") (eq $a.Status "approved") (.CanAction "library.edit") (not $d.Library)}}<form method="post" action="/answers/{{$a.ID}}/promote" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn small ghost" type="submit">Promote to library</button></form>{{end}}
+      </div>
+    </header>
+    {{if not $a}}
+      <p class="empty-inline">No answer yet. Generate one: retrieval runs first, then a grounded draft, then the claim verifier.</p>
+    {{else}}
+      {{if $d.Reused}}<p class="note ok">↺ {{$d.Reused}}</p>{{end}}
+      {{if eq $a.Status "needs_evidence"}}
+        <div class="note danger"><b>Needs evidence.</b> {{$a.EvidenceGaps}}</div>
+      {{else if $a.EvidenceGaps}}<p class="note">{{$a.EvidenceGaps}}</p>{{end}}
+      <div class="draft" id="draft-view">{{marked $d.Text $d.Verification}}</div>
+      {{if $d.Verification.Sentences}}
+      <p class="verify mono muted">Claim verifier: {{$d.Verification.Factual}} factual sentences · {{$d.Verification.Cited}} cited · <b class="{{if $a.UnsupportedCount}}danger{{else}}ok{{end}}">{{$a.UnsupportedCount}} unsupported</b> · threshold {{$d.Verification.Threshold}}{{if $a.VerifiedAt}} · {{ago $a.VerifiedAt}}{{end}}</p>
+      {{end}}
+      {{if $a.SMEQuestion}}
+      <div class="sme-q"><span class="eyebrow">Generated SME question</span><p>{{$a.SMEQuestion}}</p></div>
+      {{end}}
+      {{if .CanAction "answer.edit"}}
+      <details class="drawer" id="edit-answer"><summary>Edit answer text</summary>
+        <form method="post" action="/answers/{{$a.ID}}/edit" class="stack">
+          <input type="hidden" name="_csrf" value="{{$.CSRF}}">
+          <textarea name="text" rows="8" aria-label="Answer text">{{$d.Text}}</textarea>
+          <p class="muted small">Keep the <code>[c#]</code> markers on factual sentences. Every edit is re-verified; unsupported sentences are highlighted and counted by QA.</p>
+          <button class="btn small" type="submit">Save and re-verify</button>
+        </form>
+      </details>
+      {{end}}
+      {{if and (.CanAction "answer.approve") (eq $a.Status "in_review")}}
+      <div class="review-box">
+        <form method="post" action="/answers/{{$a.ID}}/approve" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><input name="comment" placeholder="Approval note (optional)" aria-label="Approval note"><button class="btn small" type="submit" {{if $a.UnsupportedCount}}title="Unsupported sentences remain"{{end}}>Approve</button></form>
+        <form method="post" action="/answers/{{$a.ID}}/reject" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><input name="comment" placeholder="Why it is rejected" aria-label="Rejection reason" required><button class="btn small danger ghost" type="submit">Reject</button></form>
+      </div>
+      {{end}}
+    {{end}}
+    {{if .CanAction "answer.generate"}}
+    <details class="drawer"><summary>Assign to an SME</summary>
+      <form method="post" action="/requirements/{{$r.ID}}/assign" class="stack">
+        <input type="hidden" name="_csrf" value="{{$.CSRF}}">
+        <label>Assignee <select name="assignee_id">{{range $.Data.Users}}<option value="{{.ID}}" {{if eq .Role "sme"}}selected{{end}}>{{.Name}} · {{role .Role}}</option>{{end}}</select></label>
+        <label>Question <textarea name="question" rows="2" placeholder="Leave empty to use the generated question">{{if $a}}{{$a.SMEQuestion}}{{end}}</textarea></label>
+        <label>Due <input type="date" name="due"></label>
+        <button class="btn small" type="submit">Create task</button>
+      </form>
+    </details>
+    {{end}}
+    {{if $d.Tasks}}<h3>Tasks</h3><ul class="mini">{{range $d.Tasks}}<li><a href="/tasks/{{.ID}}">{{template "pill" .Status}} {{trunc .Question 90}}</a>{{if .Response}}<p class="muted small">↳ {{trunc .Response 160}}</p>{{end}}</li>{{end}}</ul>{{end}}
+    {{if $d.Reviews}}<h3>Reviews</h3><ul class="mini">{{range $d.Reviews}}<li>{{template "pill" .Status}} {{with index $.Data.UserMap .ReviewerID}}{{.Name}}{{end}} <span class="muted">{{ago .CreatedAt}}</span>{{if .Comment}} — {{.Comment}}{{end}}</li>{{end}}</ul>{{end}}
+    {{if gt (len $d.Versions) 1}}<details class="drawer"><summary>{{len $d.Versions}} versions</summary><ul class="mini">{{range $d.Versions}}<li class="mono">v{{.Version}} · {{.GenerationMode}} · {{status .Status}} · {{.ConfidenceLabel}} · {{ago .CreatedAt}}</li>{{end}}</ul></details>{{end}}
+  </section>
+
+  <aside class="card evidence-rail">
+    <header class="card-head"><h2>Evidence</h2><span class="muted mono">{{len $d.Citations}} cited · {{len $d.Evidence}} considered</span></header>
+    {{if $d.Instruction}}<p class="empty-inline">Submission instructions are acknowledged, not evidenced.</p>{{end}}
+    {{range $d.Citations}}
+      <article class="evidence cited" id="cite-{{.Marker}}">
+        <header><span class="eyebrow">Citation {{.Marker}} · used in answer</span><b>{{.DocName}}{{if .DocVersion}} v{{.DocVersion}}{{end}}</b><span class="mono muted">{{.SectionPath}}{{if .PageNumber}} · p{{.PageNumber}}{{end}}{{if .CellRange}} · {{.SheetName}}!{{.CellRange}}{{end}}</span></header>
+        <blockquote>{{trunc .Text 600}}</blockquote>
+        <footer>{{if ne .DocApproval "approved"}}<span class="pill warn">{{.DocApproval}}</span>{{end}}{{if and .DocExpiresAt (lt .DocExpiresAt (date $.Data.Now))}}<span class="pill warn">expired</span>{{end}}<a class="mono" href="/knowledge/{{.DocID}}">open document →</a></footer>
+      </article>
+    {{end}}
+    {{range $d.Evidence}}{{template "evidence" .}}{{else}}{{if not $d.Instruction}}<p class="empty-inline">No retrieval has run yet for this requirement.</p>{{end}}{{end}}
+  </aside>
+</div>
+{{end}}
+</section>
+</div>
+{{end}}

@@ -1,0 +1,17 @@
+[
+  {"id": "firm_overview", "label": "Firm overview", "expiryMonths": 12},
+  {"id": "practice_note", "label": "Practice capability note", "expiryMonths": 12},
+  {"id": "matter_sheet", "label": "Matter sheet", "expiryMonths": 24},
+  {"id": "referee", "label": "Client referee", "expiryMonths": 12},
+  {"id": "lawyer_bio", "label": "Lawyer bio", "expiryMonths": 6},
+  {"id": "fees", "label": "Fees and billing", "expiryMonths": 12},
+  {"id": "service_standards", "label": "Service standards", "expiryMonths": 12},
+  {"id": "risk_policy", "label": "Risk and compliance policy", "expiryMonths": 12},
+  {"id": "technology", "label": "Technology and innovation", "expiryMonths": 12},
+  {"id": "esg", "label": "Diversity, ESG and pro bono", "expiryMonths": 12},
+  {"id": "terms", "label": "Terms of business", "expiryMonths": 12},
+  {"id": "standard_qa", "label": "Standard Q&A", "expiryMonths": 6},
+  {"id": "rfp", "label": "RFP / client document", "expiryMonths": 0},
+  {"id": "addendum", "label": "Addendum", "expiryMonths": 0},
+  {"id": "questionnaire", "label": "Questionnaire", "expiryMonths": 0}
+]

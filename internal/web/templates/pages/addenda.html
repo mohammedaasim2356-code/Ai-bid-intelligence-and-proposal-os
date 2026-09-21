@@ -1,0 +1,53 @@
+{{define "content"}}
+{{$b := .Bid}}
+<div class="page-head"><div><p class="eyebrow">Change control</p><h1>Addenda & clarifications</h1><p class="muted">An addendum is diffed against the requirement matrix; only changed and new items are re-drafted, removed items are struck.</p></div></div>
+<div class="grid-2-1">
+  <section class="card">
+    <header class="card-head"><h2>Addenda</h2></header>
+    {{range .Data.Addenda}}
+    <article class="block">
+      <header><b>{{.Document.Name}}</b> <span class="muted mono">{{ago .ReceivedAt}}</span> {{if .Diff.RunID}}<a class="mono" href="/bids/{{$b.ID}}#pipeline">run {{trunc .Diff.RunID 8}}</a>{{end}}</header>
+      <ul class="diff">
+        <li><span class="pill warn">changed</span> {{if .Diff.Changed}}{{join .Diff.Changed ", "}}{{else}}—{{end}}</li>
+        <li><span class="pill ok">new</span> {{if .Diff.New}}{{join .Diff.New ", "}}{{else}}—{{end}}</li>
+        <li><span class="pill danger">removed</span> {{if .Diff.Removed}}{{join .Diff.Removed ", "}}{{else}}—{{end}}</li>
+      </ul>
+    </article>
+    {{else}}<p class="empty-inline">No addenda yet.</p>{{end}}
+    {{if .CanAction "doc.upload"}}
+    <form method="post" action="/bids/{{$b.ID}}/addenda" enctype="multipart/form-data" class="upload" data-busy="Diffing and re-drafting affected items…">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <label>Addendum file <input type="file" name="file" required accept=".pdf,.docx,.txt,.md"></label>
+      <button class="btn" type="submit">Upload addendum</button>
+    </form>
+    {{end}}
+    {{if .Data.Changed}}
+    <h3>Requirements touched by addenda</h3>
+    <table class="table compact"><thead><tr><th>Code</th><th>Change</th><th>Status</th><th>Text</th></tr></thead><tbody>
+    {{range .Data.Changed}}<tr><td><a class="mono" href="/bids/{{$b.ID}}/requirements?req={{.ID}}">{{.Code}}</a></td><td><span class="pill {{if eq .ChangeState "removed"}}danger{{else if eq .ChangeState "new"}}ok{{else}}warn{{end}}">{{.ChangeState}}</span></td><td>{{template "pill" .Status}}</td><td class="wrap {{if eq .ChangeState "removed"}}struck{{end}}">{{trunc .Text 120}}</td></tr>{{end}}
+    </tbody></table>
+    {{end}}
+  </section>
+  <section class="card">
+    <header class="card-head"><h2>Clarification questions</h2></header>
+    <ul class="mini">
+    {{range .Data.Clarifications}}
+      <li><b>{{template "pill" .Status}}</b> {{with index $.Data.ReqByID .RequirementID}}<span class="mono">{{.Code}}</span>{{end}} {{.Question}}
+        <br><span class="muted small">sent {{date .SentAt}}{{if .DueAt}} · due {{date .DueAt}}{{end}}</span>
+        {{if .BuyerResponse}}<p class="note ok">Buyer: {{.BuyerResponse}}</p>{{else if $.CanAction "clarification.edit"}}
+        <form method="post" action="/clarifications/{{.ID}}/answer" class="filter-row"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><input name="response" placeholder="Buyer's response" required aria-label="Buyer response"><button class="btn small ghost" type="submit">Record</button></form>{{end}}
+      </li>
+    {{else}}<li class="muted">No clarification questions logged.</li>{{end}}
+    </ul>
+    {{if .CanAction "clarification.edit"}}
+    <form method="post" action="/bids/{{$b.ID}}/clarifications" class="stack">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <label>Requirement <select name="requirement_id"><option value="">(general)</option>{{range .Data.Reqs}}<option value="{{.ID}}">{{.Code}} — {{trunc .Text 50}}</option>{{end}}</select></label>
+      <label>Question to the buyer <textarea name="question" rows="2" required></textarea></label>
+      <label>Answer due <input type="date" name="due"></label>
+      <button class="btn small" type="submit">Log question</button>
+    </form>
+    {{end}}
+  </section>
+</div>
+{{end}}

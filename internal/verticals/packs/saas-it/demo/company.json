@@ -1,0 +1,38 @@
+{
+  "name": "Northstar Cloud Systems",
+  "tagline": "Synthetic enterprise SaaS and cloud services company. Fictional; no real customer data.",
+  "nameAliases": ["Northstar Cloud Systems", "Northstar", "Orbit"],
+  "users": [
+    {"name": "Amara Osei", "email": "amara.osei@northstar.example", "role": "admin", "title": "Head of Bid Operations"},
+    {"name": "Jonas Lindqvist", "email": "jonas.lindqvist@northstar.example", "role": "proposal_manager", "title": "Proposal Manager"},
+    {"name": "Priya Raman", "email": "priya.raman@northstar.example", "role": "writer", "title": "Senior Proposal Writer"},
+    {"name": "Mei-Ling Chen", "email": "meiling.chen@northstar.example", "role": "sme", "title": "Security Lead"},
+    {"name": "Daniel Okafor", "email": "daniel.okafor@northstar.example", "role": "sme", "title": "Solutions Architect"},
+    {"name": "Tomás Herrera", "email": "tomas.herrera@northstar.example", "role": "sme", "title": "Delivery Director"},
+    {"name": "Rachel Adeyemi", "email": "rachel.adeyemi@northstar.example", "role": "sme", "title": "Legal Counsel"},
+    {"name": "Marcus Bell", "email": "marcus.bell@northstar.example", "role": "reviewer", "title": "Compliance Lead"},
+    {"name": "Elena Petrova", "email": "elena.petrova@northstar.example", "role": "viewer", "title": "Account Executive"}
+  ],
+  "routing": {
+    "security": "meiling.chen@northstar.example",
+    "privacy_compliance": "rachel.adeyemi@northstar.example",
+    "commercial_legal": "rachel.adeyemi@northstar.example",
+    "architecture_hosting": "daniel.okafor@northstar.example",
+    "integration_data": "daniel.okafor@northstar.example",
+    "product_functionality": "daniel.okafor@northstar.example",
+    "implementation": "tomas.herrera@northstar.example",
+    "support_sla": "tomas.herrera@northstar.example",
+    "company_overview": "jonas.lindqvist@northstar.example",
+    "experience_references": "jonas.lindqvist@northstar.example",
+    "team_staffing": "jonas.lindqvist@northstar.example",
+    "submission_instructions": "jonas.lindqvist@northstar.example",
+    "general": "jonas.lindqvist@northstar.example"
+  },
+  "settings": {
+    "roi.baseline_hours_per_question": "1.5",
+    "roi.loaded_hourly_rate": "95",
+    "roi.draft_saving_fraction": "0.6",
+    "roi.reuse_saving_fraction": "0.9",
+    "roi.hours_per_rfp_admin": "12"
+  }
+}

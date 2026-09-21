@@ -1,0 +1,8 @@
+storage/
+!storage/.gitkeep
+evals/reports/*.json
+evals/reports/*.md
+.env
+bidos.exe
+bidos
+brag-output/

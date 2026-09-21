@@ -1,0 +1,56 @@
+{{define "content"}}
+<div class="page-head"><div><p class="eyebrow">Workspace</p><h1>Settings</h1><p class="muted">{{.Viewer.Org.Name}} · pack <span class="mono">{{.Data.Pack.ID}}</span> · data sensitivity <span class="mono">{{.Data.Sensitivity}}</span></p></div></div>
+
+<section class="card">
+  <header class="card-head"><h2>AI providers</h2><span class="muted mono">router config: {{default "environment" .Data.RouterSource}} · embeddings {{.Data.EmbedderID}} · cache {{.Data.Cache}} entries</span></header>
+  <table class="table">
+    <thead><tr><th>Provider</th><th>Type / model</th><th>Mode</th><th>State</th><th>Sensitivity</th><th>Calls</th><th></th></tr></thead>
+    <tbody>
+    {{range .Data.Providers}}
+    <tr>
+      <td><b>{{.ID}}</b></td>
+      <td class="mono">{{.Type}}{{if .Model}} · {{.Model}}{{end}}{{if .BaseURL}}<br><span class="muted">{{.BaseURL}}</span>{{end}}</td>
+      <td>{{.Mode}}</td>
+      <td><span class="pill {{tone .State}}">{{.State}}</span>{{if .LastError}}<br><span class="danger small">{{trunc .LastError 80}}</span>{{end}}{{if .LastOK}}<br><span class="muted small">ok {{ago .LastOK}}</span>{{end}}</td>
+      <td class="small">{{if .AllowConfidential}}confidential{{else if .AllowInternal}}internal{{else}}synthetic/public{{end}}</td>
+      <td>{{.Calls}}{{if .Fallbacks}} <span class="muted">· {{.Fallbacks}} fallbacks</span>{{end}}</td>
+      <td>{{if $.CanAction "bid.edit"}}<form method="post" action="/settings/ai/test" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><input type="hidden" name="provider" value="{{.ID}}"><button class="btn small ghost" type="submit">Test connection</button></form>{{end}}</td>
+    </tr>
+    {{end}}
+    </tbody>
+  </table>
+  <p class="muted small">Order: local model → configured providers → demo floor. Keys stay on the server; results always show their mode. Configure with <code>AI_BASE_URL</code>, <code>AI_MODEL</code>, <code>AI_API_KEY</code> (or <code>LOCAL_MODEL</code> for Ollama) or <code>ai.providers.json</code>.</p>
+  {{if .Data.Calls}}
+  <details class="drawer"><summary>Recent provider calls</summary>
+  <table class="table compact mono"><thead><tr><th>When</th><th>Task</th><th>Provider</th><th>Mode</th><th>Outcome</th><th>Latency</th></tr></thead><tbody>{{range .Data.Calls}}<tr><td>{{ago .CreatedAt}}</td><td>{{.TaskKind}}</td><td>{{.ProviderID}}</td><td>{{.Mode}}{{if .Cached}} (cached){{end}}</td><td>{{.Outcome}}{{if .ErrorClass}} · {{.ErrorClass}}{{end}}{{if .Fallback}} · fallback{{end}}{{if .Repaired}} · repaired{{end}}</td><td>{{.LatencyMs}} ms</td></tr>{{end}}</tbody></table>
+  </details>
+  {{end}}
+</section>
+
+<div class="grid-2-1">
+  <section class="card">
+    <header class="card-head"><h2>SME routing map</h2><span class="muted small">category → owner</span></header>
+    <form method="post" action="/settings/routing" class="stack">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <table class="table compact"><thead><tr><th>Category</th><th>Owner</th></tr></thead><tbody>
+      {{range $rt := .Data.Routes}}<tr><td>{{$rt.Label}}</td><td>{{if $.CanAction "bid.edit"}}<select name="route_{{$rt.Category}}" aria-label="Owner for {{$rt.Label}}">{{range $.Data.Users}}<option value="{{.Email}}" {{selected .Email $rt.Owner.Email}}>{{.Name}} · {{role .Role}}</option>{{end}}</select>{{else}}{{$rt.Owner.Name}}{{end}}</td></tr>{{end}}
+      </tbody></table>
+      {{if .CanAction "bid.edit"}}<button class="btn small" type="submit">Save routing</button>{{end}}
+    </form>
+  </section>
+  <section class="card">
+    <header class="card-head"><h2>Thresholds</h2></header>
+    <form method="post" action="/settings/values" class="stack">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      {{range .Data.Editable}}<label>{{.Label}} <input name="{{.Key}}" value="{{index $.Data.Settings .Key}}" placeholder="default"><span class="muted small">{{.Hint}}</span></label>{{end}}
+      {{if .CanAction "bid.edit"}}<button class="btn small" type="submit">Save</button>{{end}}
+    </form>
+  </section>
+</div>
+
+<section class="card">
+  <header class="card-head"><h2>Users</h2></header>
+  <table class="table compact"><thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead><tbody>{{range .Data.Users}}<tr><td><span class="avatar small">{{initials .Name}}</span> {{.Name}}</td><td class="mono">{{.Email}}</td><td>{{role .Role}}</td></tr>{{end}}</tbody></table>
+  <p class="muted small">Roles: admin and proposal manager (everything), writer (draft, submit, run QA/export), SME (respond to tasks), reviewer (approve, gates), viewer (read only). Enforced server-side.</p>
+</section>
+{{end}}

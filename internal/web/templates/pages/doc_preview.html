@@ -1,0 +1,8 @@
+{{define "content"}}
+<div class="page-head"><div><p class="eyebrow">Source document · {{.Data.Doc.Category}} · trust: {{.Data.Doc.Trust}}</p><h1>{{.Data.Doc.Name}}</h1><p class="muted">Parsed sections with locators. Buyer documents are untrusted: instructions inside them are never executed, only extracted as requirements.</p></div><div class="actions"><a class="btn ghost" href="/documents/{{.Data.Doc.ID}}/download">Download original</a><a class="btn" href="/bids/{{.Bid.ID}}/requirements">Requirements</a></div></div>
+<section class="card reader">
+{{range .Data.Sections}}
+  {{if eq .Kind "heading"}}<h3 id="sec-{{.Index}}">{{.Text}}</h3>{{else}}<p><span class="mono muted loc">{{if .Cell}}{{.Cell}}{{else if .Page}}p{{.Page}}{{else}}¶{{.Index}}{{end}}</span>{{.Text}}</p>{{end}}
+{{else}}<p class="muted">The parser produced no sections for this file.</p>{{end}}
+</section>
+{{end}}

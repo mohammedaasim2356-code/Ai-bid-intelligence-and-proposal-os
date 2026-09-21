@@ -1,0 +1,12 @@
+{
+  "id": "legal-services",
+  "name": "Legal Services",
+  "version": "1.0.0",
+  "description": "Law-firm panel tenders and client RFPs: practice expertise, matter experience, fees, service delivery, risk and compliance, with client-disclosure and conflicts guardrails.",
+  "guardrails": {
+    "clientDisclosure": true,
+    "noLegalAdvice": true,
+    "conflictsGate": true,
+    "qaExtraChecks": ["client_disclosure", "conflicts_gate", "legal_advice"]
+  }
+}

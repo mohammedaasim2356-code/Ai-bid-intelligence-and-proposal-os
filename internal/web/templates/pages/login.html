@@ -1,0 +1,33 @@
+{{define "content"}}
+<div class="login-wrap">
+  <section class="card login">
+    <a class="brand big" href="/"><span class="logo">B</span><span>BidOS</span></a>
+    <h1>Sign in</h1>
+    {{if .Data.Users}}
+    <p class="muted">Synthetic workspace <b>{{.Data.DemoOrg.Name}}</b>. Pick a role to see the product from that seat.</p>
+    <form method="post" action="/login" class="user-grid">
+      <input type="hidden" name="next" value="{{.Data.Next}}">
+      {{range .Data.Users}}
+      <button type="submit" name="user_id" value="{{.ID}}" class="user-card">
+        <span class="avatar">{{initials .Name}}</span>
+        <span><b>{{.Name}}</b><br><span class="muted">{{role .Role}}</span></span>
+      </button>
+      {{end}}
+    </form>
+    <hr>
+    {{else}}
+    <p class="muted">No demo workspace yet. <form method="post" action="/demo/launch" class="inline"><button class="btn" type="submit">Create the synthetic demo</button></form></p>
+    {{end}}
+    <details>
+      <summary>Sign in with email and password</summary>
+      <form method="post" action="/login" class="stack">
+        <input type="hidden" name="next" value="{{.Data.Next}}">
+        {{if gt (len .Data.Orgs) 1}}<label>Workspace <select name="org_id">{{range .Data.Orgs}}<option value="{{.ID}}">{{.Name}}</option>{{end}}</select></label>{{end}}
+        <label>Email <input type="email" name="email" required autocomplete="username"></label>
+        <label>Password <input type="password" name="password" required autocomplete="current-password"></label>
+        <button class="btn" type="submit">Sign in</button>
+      </form>
+    </details>
+  </section>
+</div>
+{{end}}

@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: bidos
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DEMO_MODE
+        value: "true"

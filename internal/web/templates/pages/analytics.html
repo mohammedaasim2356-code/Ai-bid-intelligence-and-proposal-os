@@ -1,0 +1,38 @@
+{{define "content"}}
+{{$d := .Data.D}}{{$r := $d.ROI}}
+<div class="page-head"><div><p class="eyebrow">Portfolio analytics</p><h1>Analytics</h1><p class="muted">Operational metrics from database state. Savings are <b>estimated operational savings</b> from an editable model, never measured revenue.</p></div></div>
+<section class="kpis">
+  <div class="kpi card"><span class="k-label">Coverage</span><span class="k-value">{{$d.CoveragePct}}%</span>{{progress $d.CoveragePct ""}}</div>
+  <div class="kpi card"><span class="k-label">Automation</span><span class="k-value">{{$d.AutomationPct}}%</span>{{progress $d.AutomationPct "c1"}}</div>
+  <div class="kpi card"><span class="k-label">Reuse</span><span class="k-value">{{$d.ReusePct}}%</span>{{progress $d.ReusePct "c3"}}</div>
+  <div class="kpi card"><span class="k-label">Cycle time</span><span class="k-value">{{if $d.CycleTimeMeasured}}{{num $d.CycleTimeDays}}d{{else}}—{{end}}</span><span class="k-foot">{{if $d.CycleTimeMeasured}}intake → ready, measured{{else}}no completed bid with real timestamps yet{{end}}</span></div>
+  <div class="kpi card"><span class="k-label">Estimated savings</span><span class="k-value">{{money $r.EstimatedSavings}}</span><span class="k-foot">≈ {{int $r.EstimatedHours}} hours</span></div>
+</section>
+<div class="grid-2-1">
+  <section class="card">
+    <header class="card-head"><h2>Estimated operational savings</h2><span class="pill info">estimate</span></header>
+    <p class="mono small formula">{{$r.Formula}}</p>
+    {{if .CanAction "bid.edit"}}
+    <form method="post" action="/analytics/roi" class="form-grid">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <label>Baseline hours per question <input name="baseline_hours_per_question" type="number" step="0.1" min="0" value="{{$r.BaselineHoursPerQuestion}}"></label>
+      <label>Loaded hourly rate ($) <input name="loaded_hourly_rate" type="number" step="1" min="0" value="{{$r.LoadedHourlyRate}}"></label>
+      <label>Saving fraction, drafted <input name="draft_saving_fraction" type="number" step="0.05" min="0" max="1" value="{{$r.DraftSavingFraction}}"></label>
+      <label>Saving fraction, reused <input name="reuse_saving_fraction" type="number" step="0.05" min="0" max="1" value="{{$r.ReuseSavingFraction}}"></label>
+      <label>Admin hours per RFP <input name="hours_per_rfp_admin" type="number" step="0.5" min="0" value="{{$r.HoursPerRFPAdmin}}"></label>
+      <div class="actions"><button class="btn small" type="submit">Recalculate</button></div>
+    </form>
+    {{end}}
+    <ul class="stats"><li><b>{{$r.DraftedAnswers}}</b> answers drafted</li><li><b>{{$r.ReusedAnswers}}</b> reused from the library</li><li><b>{{$r.Bids}}</b> bids</li></ul>
+  </section>
+  <section class="card"><header class="card-head"><h2>Activity by day</h2></header>{{area $d.ActivityByDay 420 180}}</section>
+</div>
+<div class="grid-3">
+  <section class="card"><header class="card-head"><h2>Stage board</h2></header><ul class="board">{{range $d.StageOrder}}<li><span>{{status .}}</span><b>{{index $d.StageBoard .}}</b></li>{{end}}</ul></section>
+  <section class="card"><header class="card-head"><h2>Review load</h2></header>{{bar $d.ReviewerLoad 340}}</section>
+  <section class="card"><header class="card-head"><h2>Evidence labels</h2></header>{{donut $d.Labels 0 ""}}</section>
+</div>
+<section class="card"><header class="card-head"><h2>AI provider usage, 30 days</h2></header>
+<table class="table compact"><thead><tr><th>Provider</th><th>Mode</th><th>Calls</th><th>Cached</th><th>Fallbacks</th><th>Repaired</th><th>Errors</th><th>Avg latency</th></tr></thead><tbody>{{range .Data.Providers}}<tr><td>{{.ProviderID}}</td><td>{{.Mode}}</td><td>{{.Calls}}</td><td>{{.Cached}}</td><td>{{.Fallbacks}}</td><td>{{.Repaired}}</td><td>{{.Errors}}</td><td>{{.Latency}} ms</td></tr>{{else}}<tr><td colspan="8" class="muted">No provider calls recorded.</td></tr>{{end}}</tbody></table>
+</section>
+{{end}}

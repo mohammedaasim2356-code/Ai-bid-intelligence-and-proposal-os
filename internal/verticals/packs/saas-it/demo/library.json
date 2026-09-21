@@ -1,0 +1,11 @@
+[
+  {
+    "question": "What is the platform's supported concurrent user capacity?",
+    "answer": "The Orbit platform supports up to 2,000 concurrent users per tenant and delivers 99.5% monthly availability.",
+    "category": "architecture_hosting",
+    "evidence": ["legacy-datasheet:1"],
+    "approvedAt": "2024-11-12T10:00:00Z",
+    "reviewBy": "2025-11-12",
+    "tags": ["legacy", "capacity"]
+  }
+]

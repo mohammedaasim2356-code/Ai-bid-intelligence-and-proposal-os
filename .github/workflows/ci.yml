@@ -1,0 +1,37 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      CGO_ENABLED: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: bidos-v2/go.mod
+          cache-dependency-path: bidos-v2/go.sum
+      - name: Build
+        working-directory: bidos-v2
+        run: go build ./... && go vet ./...
+      - name: Unit and integration tests
+        working-directory: bidos-v2
+        run: go test ./...
+      - name: Eval gate (demo provider)
+        working-directory: bidos-v2
+        run: |
+          go build -o bidos .
+          DATABASE_URL=/tmp/ci.db STORAGE_DIR=/tmp/ci-storage ./bidos eval --provider demo
+      - name: Demo walkthrough
+        working-directory: bidos-v2
+        run: DATABASE_URL=/tmp/ci.db STORAGE_DIR=/tmp/ci-storage ./bidos verify-demo
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-reports
+          path: bidos-v2/evals/reports/
+          if-no-files-found: ignore

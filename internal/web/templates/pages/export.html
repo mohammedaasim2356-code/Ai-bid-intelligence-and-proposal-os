@@ -1,0 +1,41 @@
+{{define "content"}}
+{{$b := .Bid}}
+<div class="page-head">
+  <div><p class="eyebrow">Delivery</p><h1>Export</h1><p class="muted">{{if .Data.GateMsg}}<span class="danger">{{.Data.GateMsg}}</span> CSV and JSON matrices stay available.{{else}}<span class="ok">Export gate open:</span> zero open QA blockers.{{end}}</p></div>
+</div>
+<div class="grid-2-1">
+  <section class="card">
+    <header class="card-head"><h2>Proposal formats</h2></header>
+    {{if .CanAction "export.run"}}
+    <form method="post" action="/bids/{{$b.ID}}/export" class="chips-form">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      {{range $f := (list "docx" "md" "html" "pdf" "json" "csv")}}<button class="btn {{if or (eq $f "json") (eq $f "csv")}}ghost{{end}}" name="format" value="{{$f}}" {{if and $.Data.GateMsg (ne $f "json") (ne $f "csv")}}disabled title="Blocked by QA"{{end}}>{{upper $f}}</button>{{end}}
+    </form>
+    <p class="muted small">DOCX/MD/HTML/PDF render the assembled proposal with citation footnotes and a compliance-matrix appendix. JSON and CSV export the requirement matrix.</p>
+    {{end}}
+    {{if .Data.RoundTrip}}
+    <h3>Questionnaire round-trip</h3>
+    <p class="muted small">Writes approved answers back into the buyer's original file using the stored cell/paragraph locators. Only answer cells change; an automated cell diff verifies it.</p>
+    {{if .CanAction "export.run"}}
+    <form method="post" action="/bids/{{$b.ID}}/roundtrip" class="filter-row">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <select name="doc_id" aria-label="Original document">{{range .Data.RoundTrip}}<option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
+      <label class="check"><input type="checkbox" name="approved_only" value="1" checked> approved answers only</label>
+      <button class="btn" type="submit">Fill original file</button>
+    </form>
+    {{end}}
+    {{end}}
+    <h3>Export history</h3>
+    {{if .Data.Exports}}
+    <table class="table compact">
+      <thead><tr><th>Format</th><th>File</th><th>By</th><th>When</th><th></th></tr></thead>
+      <tbody>{{range .Data.Exports}}<tr><td><span class="pill muted">{{.Format}}</span></td><td class="mono">{{basename .FilePath}}</td><td>{{with index $.Data.UserMap .CreatedBy}}{{.Name}}{{end}}</td><td class="muted">{{ago .CreatedAt}}</td><td><a class="btn small ghost" href="/exports/{{.ID}}/download">Download</a></td></tr>{{end}}</tbody>
+    </table>
+    {{else}}<p class="empty-inline">No exports yet.</p>{{end}}
+  </section>
+  <section class="card" id="audit">
+    <header class="card-head"><h2>Audit trail</h2></header>
+    <ul class="feed">{{range .Data.Activity}}<li><span class="mono muted">{{datetime .CreatedAt}}</span> <b>{{replace .EventType "." " "}}</b>{{with index $.Data.UserMap .UserID}} · {{.Name}}{{end}}</li>{{else}}<li class="muted">No activity yet.</li>{{end}}</ul>
+  </section>
+</div>
+{{end}}

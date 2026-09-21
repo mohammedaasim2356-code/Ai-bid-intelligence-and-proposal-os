@@ -1,0 +1,41 @@
+{{define "content"}}
+{{$q := .Data.Q}}{{$b := .Bid}}{{$links := .Data.Links}}
+<div class="page-head">
+  <div><p class="eyebrow">Launch checklist</p><h1>QA</h1><p class="muted">{{if $q.RanAt}}Last run {{ago $q.RanAt}} · {{else}}Not run yet · {{end}}{{len $q.CheckTypes}} deterministic checks{{if $q.ExportAllowed}} · <span class="ok">export allowed</span>{{else}} · <span class="danger">export blocked until zero open blockers</span>{{end}}</p></div>
+  <div class="actions">{{if .CanAction "qa.run"}}<form method="post" action="/bids/{{$b.ID}}/qa/run" data-busy="Running checks…"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn" type="submit">Run QA</button></form>{{end}}</div>
+</div>
+<section class="kpis four">
+  <div class="kpi card"><span class="k-label">Ready score</span><span class="k-value">{{$q.Passed}}<span class="muted"> / {{$q.Total}}</span></span>{{progress (pct $q.Passed $q.Total) ""}}<span class="k-foot">checks passed</span></div>
+  <div class="kpi card {{if $q.Blockers}}alert{{end}}"><span class="k-label">Blockers</span><span class="k-value">{{$q.Blockers}}</span><span class="k-foot">must be resolved before export</span></div>
+  <div class="kpi card"><span class="k-label">Warnings</span><span class="k-value">{{$q.Warnings}}</span><span class="k-foot">should be reviewed</span></div>
+  <div class="kpi card"><span class="k-label">Info</span><span class="k-value">{{$q.Info}}</span><span class="k-foot">for awareness</span></div>
+</section>
+{{range $sev := (list "blocker" "warning" "info")}}
+{{$items := index $.Data.Groups $sev}}
+<section class="card">
+  <header class="card-head"><h2>{{title $sev}}s <span class="pill {{tone $sev}}">{{len $items}}</span></h2></header>
+  {{if $items}}
+  <ul class="findings">
+    {{range $items}}
+    <li>
+      <div><span class="pill {{tone .Severity}}">{{replace .CheckType "_" " "}}</span> <a href="{{index $links .ID}}">{{.Message}}</a></div>
+      {{if $.CanAction "qa.resolve"}}
+      <form method="post" action="/qa/{{.ID}}/resolve" class="inline">
+        <input type="hidden" name="_csrf" value="{{$.CSRF}}">
+        <input name="reason" placeholder="Reason" aria-label="Resolution reason" required>
+        <button class="btn small ghost" name="status" value="resolved">Resolved</button>
+        <button class="btn small ghost" name="status" value="dismissed" title="Dismissals stick only while the finding is unchanged">Dismiss</button>
+      </form>
+      {{end}}
+    </li>
+    {{end}}
+  </ul>
+  {{else}}<p class="empty-inline">None open.</p>{{end}}
+</section>
+{{end}}
+{{if .Data.Resolved}}
+<details class="card drawer"><summary>{{len .Data.Resolved}} resolved or dismissed findings</summary>
+<ul class="findings muted">{{range .Data.Resolved}}<li><div>{{template "pill" .Status}} {{replace .CheckType "_" " "}} — {{.Message}}{{if .Resolution}} <i>({{.Resolution}})</i>{{end}}</div></li>{{end}}</ul>
+</details>
+{{end}}
+{{end}}

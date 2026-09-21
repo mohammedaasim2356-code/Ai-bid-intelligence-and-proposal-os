@@ -1,0 +1,416 @@
+{
+  "1.1": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "10.1": {
+    "mustContain": [
+      "HC Connect"
+    ],
+    "mustNotClaim": []
+  },
+  "10.2": {
+    "mustContain": [
+      "Contract Express"
+    ],
+    "mustNotClaim": []
+  },
+  "10.3": {
+    "mustContain": [
+      "human review"
+    ],
+    "mustNotClaim": []
+  },
+  "10.4": {
+    "mustContain": [
+      "legal project managers"
+    ],
+    "mustNotClaim": []
+  },
+  "10.5": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "licensed Alternative Business Structure",
+      "is an ABS"
+    ]
+  },
+  "11.1": {
+    "mustContain": [
+      "46%"
+    ],
+    "mustNotClaim": []
+  },
+  "11.2": {
+    "mustContain": [
+      "2030"
+    ],
+    "mustNotClaim": []
+  },
+  "11.3": {
+    "mustContain": [
+      "6,200"
+    ],
+    "mustNotClaim": []
+  },
+  "11.4": {
+    "mustContain": [
+      "Mindful Business Charter"
+    ],
+    "mustNotClaim": []
+  },
+  "11.5": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "Living Wage Foundation accredited",
+      "Living Wage employer"
+    ]
+  },
+  "12.1": {
+    "mustContain": [
+      "24 hours"
+    ],
+    "mustNotClaim": []
+  },
+  "12.2": {
+    "mustContain": [
+      "50 million"
+    ],
+    "mustNotClaim": []
+  },
+  "12.3": {
+    "mustContain": [
+      "30 days"
+    ],
+    "mustNotClaim": []
+  },
+  "12.4": {
+    "mustContain": [
+      "30 days"
+    ],
+    "mustNotClaim": []
+  },
+  "12.5": {
+    "mustContain": [
+      "panel"
+    ],
+    "mustNotClaim": []
+  },
+  "2.1": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.2": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.3": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.4": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.5": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.6": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "3.1": {
+    "mustContain": [
+      "1994"
+    ],
+    "mustNotClaim": []
+  },
+  "3.2": {
+    "mustContain": [
+      "Manchester"
+    ],
+    "mustNotClaim": []
+  },
+  "3.3": {
+    "mustContain": [
+      "98 million"
+    ],
+    "mustNotClaim": []
+  },
+  "3.4": {
+    "mustContain": [
+      "Lexcel"
+    ],
+    "mustNotClaim": []
+  },
+  "3.5": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "Singapore office",
+      "office in Singapore",
+      "Dubai office"
+    ]
+  },
+  "3.6": {
+    "mustContain": [
+      "partner-owned"
+    ],
+    "mustNotClaim": []
+  },
+  "4.1": {
+    "mustContain": [
+      "4.2 billion"
+    ],
+    "mustNotClaim": []
+  },
+  "4.2": {
+    "mustContain": [
+      "NEC4"
+    ],
+    "mustNotClaim": []
+  },
+  "4.3": {
+    "mustContain": [
+      "Procurement Act 2023"
+    ],
+    "mustNotClaim": []
+  },
+  "4.4": {
+    "mustContain": [
+      "38"
+    ],
+    "mustNotClaim": []
+  },
+  "4.5": {
+    "mustContain": [
+      "LCIA"
+    ],
+    "mustNotClaim": []
+  },
+  "4.6": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "Band 1"
+    ]
+  },
+  "4.7": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "Scots law"
+    ]
+  },
+  "4.8": {
+    "mustContain": [
+      "planning"
+    ],
+    "mustNotClaim": []
+  },
+  "5.1": {
+    "mustContain": [
+      "Eleanor Vance"
+    ],
+    "mustNotClaim": []
+  },
+  "5.2": {
+    "mustContain": [
+      "post-qualification"
+    ],
+    "mustNotClaim": []
+  },
+  "5.3": {
+    "mustContain": [
+      "leverage"
+    ],
+    "mustNotClaim": []
+  },
+  "5.4": {
+    "mustContain": [
+      "30 days"
+    ],
+    "mustNotClaim": []
+  },
+  "5.5": {
+    "mustContain": [
+      "supervis"
+    ],
+    "mustNotClaim": []
+  },
+  "5.6": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "Welsh-speaking partner"
+    ]
+  },
+  "6.1": {
+    "mustContain": [
+      "320 million"
+    ],
+    "mustNotClaim": [
+      "Vantage"
+    ]
+  },
+  "6.2": {
+    "mustContain": [
+      "adjudicat"
+    ],
+    "mustNotClaim": []
+  },
+  "6.3": {
+    "mustContain": [
+      "depot"
+    ],
+    "mustNotClaim": []
+  },
+  "6.4": {
+    "mustContain": [
+      "Northgate Rail"
+    ],
+    "mustNotClaim": []
+  },
+  "6.5": {
+    "mustContain": [
+      "energy"
+    ],
+    "mustNotClaim": []
+  },
+  "6.6": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "PFI hospital"
+    ]
+  },
+  "7.1": {
+    "mustContain": [
+      "2 hours",
+      "24 hours"
+    ],
+    "mustNotClaim": []
+  },
+  "7.2": {
+    "mustContain": [
+      "monthly"
+    ],
+    "mustNotClaim": []
+  },
+  "7.3": {
+    "mustContain": [
+      "budget accuracy"
+    ],
+    "mustNotClaim": []
+  },
+  "7.4": {
+    "mustContain": [
+      "secondee"
+    ],
+    "mustNotClaim": []
+  },
+  "7.5": {
+    "mustContain": [
+      "training sessions"
+    ],
+    "mustNotClaim": []
+  },
+  "7.6": {
+    "mustContain": [
+      "Legal Ombudsman"
+    ],
+    "mustNotClaim": []
+  },
+  "7.7": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "24x7 helpdesk"
+    ]
+  },
+  "8.1": {
+    "mustContain": [
+      "495"
+    ],
+    "mustNotClaim": []
+  },
+  "8.2": {
+    "mustContain": [
+      "15%"
+    ],
+    "mustNotClaim": []
+  },
+  "8.3": {
+    "mustContain": [
+      "capped"
+    ],
+    "mustNotClaim": []
+  },
+  "8.4": {
+    "mustContain": [
+      "LEDES"
+    ],
+    "mustNotClaim": []
+  },
+  "8.5": {
+    "mustContain": [
+      "10%"
+    ],
+    "mustNotClaim": []
+  },
+  "8.6": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "accept Bitcoin",
+      "accepts Bitcoin"
+    ]
+  },
+  "8.7": {
+    "mustContain": [
+      "at cost"
+    ],
+    "mustNotClaim": []
+  },
+  "9.1": {
+    "mustContain": [
+      "50 million"
+    ],
+    "mustNotClaim": []
+  },
+  "9.2": {
+    "mustContain": [
+      "ISO 27001"
+    ],
+    "mustNotClaim": []
+  },
+  "9.3": {
+    "mustContain": [
+      "UK"
+    ],
+    "mustNotClaim": []
+  },
+  "9.4": {
+    "mustContain": [
+      "4 hours"
+    ],
+    "mustNotClaim": []
+  },
+  "9.5": {
+    "mustContain": [
+      "sanctions"
+    ],
+    "mustNotClaim": []
+  },
+  "9.6": {
+    "mustContain": [
+      "five years"
+    ],
+    "mustNotClaim": []
+  },
+  "9.7": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "Cyber Essentials Plus"
+    ]
+  },
+  "9.8": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "ISO 14001 certified"
+    ]
+  }
+}

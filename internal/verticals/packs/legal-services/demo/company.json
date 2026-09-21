@@ -1,0 +1,39 @@
+{
+  "name": "Halden & Crewe LLP",
+  "tagline": "Synthetic UK commercial law firm. Fictional; no real clients, lawyers or matters.",
+  "nameAliases": ["Halden & Crewe LLP", "Halden & Crewe", "Halden and Crewe", "H&C"],
+  "users": [
+    {"name": "Isabel Fairweather", "email": "isabel.fairweather@haldencrewe.example", "role": "admin", "title": "Head of Business Development"},
+    {"name": "Oliver Tennant", "email": "oliver.tennant@haldencrewe.example", "role": "proposal_manager", "title": "Bids and Tenders Manager"},
+    {"name": "Grace Mbeki", "email": "grace.mbeki@haldencrewe.example", "role": "writer", "title": "Senior Bid Writer"},
+    {"name": "Eleanor Vance", "email": "eleanor.vance@haldencrewe.example", "role": "sme", "title": "Corporate Partner, Relationship Partner"},
+    {"name": "Rajesh Menon", "email": "rajesh.menon@haldencrewe.example", "role": "sme", "title": "Construction and Infrastructure Partner"},
+    {"name": "Fiona Achterberg", "email": "fiona.achterberg@haldencrewe.example", "role": "sme", "title": "Disputes Partner"},
+    {"name": "Samuel Okoro", "email": "samuel.okoro@haldencrewe.example", "role": "sme", "title": "Director of Risk and Compliance (COLP)"},
+    {"name": "Hannah Lindgren", "email": "hannah.lindgren@haldencrewe.example", "role": "sme", "title": "Finance Director"},
+    {"name": "Marcus Whitfield", "email": "marcus.whitfield@haldencrewe.example", "role": "reviewer", "title": "General Counsel and Risk Partner"},
+    {"name": "Priya Nair", "email": "priya.nair@haldencrewe.example", "role": "viewer", "title": "Client Development Executive"}
+  ],
+  "routing": {
+    "practice_expertise": "rajesh.menon@haldencrewe.example",
+    "matter_experience": "eleanor.vance@haldencrewe.example",
+    "team_experience": "oliver.tennant@haldencrewe.example",
+    "firm_overview": "oliver.tennant@haldencrewe.example",
+    "fees_pricing": "hannah.lindgren@haldencrewe.example",
+    "commercial_terms": "marcus.whitfield@haldencrewe.example",
+    "service_delivery": "eleanor.vance@haldencrewe.example",
+    "risk_compliance": "samuel.okoro@haldencrewe.example",
+    "conflicts_confidentiality": "samuel.okoro@haldencrewe.example",
+    "technology_innovation": "fiona.achterberg@haldencrewe.example",
+    "diversity_esg": "isabel.fairweather@haldencrewe.example",
+    "submission_instructions": "oliver.tennant@haldencrewe.example",
+    "general": "oliver.tennant@haldencrewe.example"
+  },
+  "settings": {
+    "roi.baseline_hours_per_question": "2",
+    "roi.loaded_hourly_rate": "140",
+    "roi.draft_saving_fraction": "0.55",
+    "roi.reuse_saving_fraction": "0.85",
+    "roi.hours_per_rfp_admin": "16"
+  }
+}

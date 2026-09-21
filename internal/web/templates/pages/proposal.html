@@ -1,0 +1,65 @@
+{{define "content"}}
+{{$a := .Data.A}}{{$b := .Bid}}{{$sel := .Data.Sel}}
+<div class="page-head">
+  <div><p class="eyebrow">Assembly</p><h1>Proposal</h1><p class="muted">{{len $a.Sections}} sections · {{$a.Words}} words · {{len $a.Footnotes}} citation footnotes · {{len $a.Unplaced}} approved answers not yet placed</p></div>
+  <div class="actions">
+    {{if .CanAction "proposal.edit"}}<form method="post" action="/bids/{{$b.ID}}/proposal/autoplace" class="inline"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn ghost" type="submit">Auto-place approved answers</button></form>{{end}}
+    <a class="btn" href="/bids/{{$b.ID}}/export">Export</a>
+  </div>
+</div>
+<div class="split">
+  <aside class="split-list card">
+    <ol class="sec-nav">
+      {{range $a.Sections}}<li class="{{if eq .Section.ID $sel}}selected{{end}}"><a href="/bids/{{$b.ID}}/proposal?section={{.Section.ID}}">{{.Section.Title}} <span class="muted mono">{{len .Blocks}}</span>{{if .Placeholder}} <span class="warn" title="Placeholder text">⚠</span>{{end}}{{if .Empty}} <span class="muted" title="Empty">○</span>{{end}}</a></li>{{end}}
+    </ol>
+    {{if .CanAction "proposal.edit"}}
+    <form method="post" action="/bids/{{$b.ID}}/proposal/sections" class="filter-row">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}"><input name="title" placeholder="New section title" required aria-label="New section title"><button class="btn small ghost" type="submit">Add</button>
+    </form>
+    {{end}}
+    {{if $a.Unplaced}}
+    <h3>Unplaced approved answers</h3>
+    <ul class="mini">{{range $a.Unplaced}}<li><span class="mono">{{.Requirement.Code}}</span> {{trunc .Requirement.Text 70}}</li>{{end}}</ul>
+    {{end}}
+  </aside>
+  <section class="split-detail">
+    {{range $a.Sections}}
+    {{if or (eq .Section.ID $sel) (and (eq $sel "") (eq .Section.SortOrder 0))}}
+    {{$s := .Section}}
+    <article class="card">
+      <header class="card-head">
+        <h2>{{$s.Title}}</h2>
+        {{if $.CanAction "proposal.edit"}}<div class="actions">
+          <form method="post" action="/sections/{{$s.ID}}/move" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn small ghost" name="dir" value="up" aria-label="Move up">↑</button><button class="btn small ghost" name="dir" value="down" aria-label="Move down">↓</button></form>
+        </div>{{end}}
+      </header>
+      {{if $.CanAction "proposal.edit"}}
+      <form method="post" action="/sections/{{$s.ID}}" class="stack">
+        <input type="hidden" name="_csrf" value="{{$.CSRF}}">
+        <label>Title <input name="title" value="{{$s.Title}}"></label>
+        <label>Narrative (Markdown; placeholders like [TBD] are flagged by QA)<textarea name="content" rows="8">{{$s.Content}}</textarea></label>
+        <button class="btn small" type="submit">Save section</button>
+      </form>
+      {{else}}<div class="reader">{{paras $s.Content}}</div>{{end}}
+      <h3>Inserted answer blocks</h3>
+      {{range .Blocks}}
+      <div class="block">
+        <header><span class="mono">{{.Requirement.Code}}</span> {{template "pill" .Answer.Status}} {{template "labelpill" .Answer.ConfidenceLabel}} <a class="mono" href="/bids/{{$b.ID}}/requirements?req={{.Requirement.ID}}">open</a>
+          {{if $.CanAction "proposal.edit"}}<form method="post" action="/sections/{{$s.ID}}/remove" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><input type="hidden" name="answer_id" value="{{.Answer.ID}}"><button class="linkish danger" type="submit">remove</button></form>{{end}}</header>
+        <div class="reader">{{paras .Text}}</div>
+        {{if .Notes}}<ol class="footnotes">{{range .Notes}}<li value="{{.Number}}"><b>{{.Doc}}</b>{{if .Section}} · {{.Section}}{{end}}{{if .Locator}} · {{.Locator}}{{end}} — <span class="muted">{{trunc .Excerpt 140}}</span></li>{{end}}</ol>{{end}}
+      </div>
+      {{else}}<p class="empty-inline">No answer blocks in this section yet.</p>{{end}}
+      {{if and ($.CanAction "proposal.edit") $a.Unplaced}}
+      <form method="post" action="/sections/{{$s.ID}}/insert" class="filter-row">
+        <input type="hidden" name="_csrf" value="{{$.CSRF}}">
+        <select name="answer_id" aria-label="Approved answer to insert">{{range $a.Unplaced}}<option value="{{.Answer.ID}}">{{.Requirement.Code}} — {{trunc .Requirement.Text 60}}</option>{{end}}</select>
+        <button class="btn small" type="submit">Insert approved answer</button>
+      </form>
+      {{end}}
+    </article>
+    {{end}}
+    {{end}}
+  </section>
+</div>
+{{end}}

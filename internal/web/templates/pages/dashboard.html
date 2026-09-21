@@ -1,0 +1,114 @@
+{{define "content"}}
+{{$d := .Data.D}}
+<div class="page-head">
+  <div class="chips">
+    <a class="active" href="/dashboard">Portfolio</a>
+    <a href="/analytics">Analytics</a>
+    <a href="/quality">Quality</a>
+  </div>
+  <div class="actions">
+    {{if .CanAction "bid.create"}}<a class="btn accent" href="/bids/new">+ New bid</a>{{end}}
+    <a class="btn ghost" href="/tasks">My tasks{{if .Data.MyOpenTasks}} · {{.Data.MyOpenTasks}}{{end}}</a>
+  </div>
+</div>
+
+<section class="bento">
+
+  <div class="card grip kpi w4">
+    <div class="kpi-row"><span class="k-label">Evidence coverage</span><span class="delta{{if lt $d.CoveragePct 50}} down{{end}}">{{$d.CoveragePct}}%</span></div>
+    <span class="k-value">{{$d.ApprovedAnswers}}<span class="muted" style="font-size:1rem;font-weight:600">/{{$d.TotalRequirements}}</span></span>
+    {{progress $d.CoveragePct "c1"}}
+    <span class="k-foot">answers approved with qualified evidence</span>
+  </div>
+
+  <div class="card grip kpi w4">
+    <div class="kpi-row"><span class="k-label">Automation rate</span><span class="delta">{{$d.AutomationPct}}%</span></div>
+    <span class="k-value">{{$d.ActiveBids}} <span class="muted" style="font-size:1rem;font-weight:600">active bids</span></span>
+    {{progress $d.AutomationPct "c2"}}
+    <span class="k-foot">drafted without manual generation</span>
+  </div>
+
+  <div class="card tint w4 tall">
+    <div class="card-head"><h2>Requirements</h2><span class="muted small">by category</span></div>
+    <span class="k-value" style="font-size:2.4rem">{{$d.TotalRequirements}}</span>
+    <span class="k-foot">{{$d.NeedsEvidence}} need evidence · {{$d.InReview}} in review</span>
+    <div class="fill">{{column $d.CategorySeries 320 160}}</div>
+  </div>
+
+  <div class="card grip kpi w4">
+    <div class="kpi-row"><span class="k-label">Library reuse</span><span class="delta{{if lt $d.ReusePct 20}} flat{{end}}">{{$d.ReusePct}}%</span></div>
+    <span class="k-value">{{$d.LibraryEntries}}</span>
+    <span class="k-foot">approved entries{{if $d.LibraryExpired}} · <span class="warn">{{$d.LibraryExpired}} expired</span>{{end}}</span>
+  </div>
+
+  <div class="card grip kpi w4 {{if $d.Blockers}}alert{{end}}">
+    <div class="kpi-row"><span class="k-label">QA blockers</span>{{if $d.Blockers}}<span class="delta down">open</span>{{else}}<span class="delta">clear</span>{{end}}</div>
+    <span class="k-value">{{$d.Blockers}}</span>
+    <span class="k-foot">{{$d.OpenTasks}} open SME tasks{{if .Data.MyOpenTasks}} · <a href="/tasks">{{.Data.MyOpenTasks}} yours</a>{{end}}</span>
+  </div>
+
+  <section class="card w8">
+    <header class="card-head"><h2>Activity, last 30 days</h2><span class="muted small">events per day</span></header>
+    {{column $d.ActivityByDay 720 190}}
+  </section>
+
+  <div class="card dark w4 grip">
+    <div class="card-head"><h2>Estimated savings</h2><span class="muted small">all time</span></div>
+    <span class="k-value" style="font-size:2.1rem">{{money $d.ROI.EstimatedSavings}}</span>
+    <span class="k-foot">≈ {{int $d.ROI.EstimatedHours}} hours returned · <a href="/analytics">editable model</a></span>
+    <div class="fill">{{area $d.ActivityByDay 320 90}}</div>
+  </div>
+
+  <section class="card w8">
+    <header class="card-head"><h2>Active bids</h2><a class="small" href="/bids">all bids →</a></header>
+    {{if $d.Bids}}
+    <table class="table">
+      <thead><tr><th>Bid</th><th>Stage</th><th>Progress</th><th>Deadline</th><th>Next</th></tr></thead>
+      <tbody>
+      {{range $d.Bids}}
+      <tr>
+        <td><a href="/bids/{{.Bid.ID}}"><b>{{.Bid.Name}}</b></a><br><span class="muted">{{.Bid.BuyerName}} · {{money .Bid.EstimatedValue}}</span></td>
+        <td>{{template "pill" .Bid.Status}}{{if .Run}}<br><span class="muted small">{{stage .Run.CurrentStage}}</span>{{end}}</td>
+        <td class="w-progress">{{progress .ProgressPct ""}}<span class="muted small">{{.Approved}}/{{.Total}} approved{{if .Blockers}} · {{.Blockers}} blockers{{end}}</span></td>
+        <td>{{if .Bid.Deadline}}<span class="{{if lt .DaysLeft 3}}danger{{else if lt .DaysLeft 8}}warn{{end}}">{{date .Bid.Deadline}}</span><br><span class="muted small">{{.DaysLeft}} days</span>{{else}}<span class="muted">—</span>{{end}}</td>
+        <td><a class="btn small" href="{{.PrimaryLink}}">{{.PrimaryAction}}</a></td>
+      </tr>
+      {{end}}
+      </tbody>
+    </table>
+    {{else}}{{template "empty" (dict "Title" "No bids yet" "Why" "Create a bid and upload its RFP to start extraction, drafting and QA." "Href" "/bids/new" "Action" "Create a bid")}}{{end}}
+  </section>
+
+  <div class="stack w4">
+    <section class="card">
+      <header class="card-head"><h2>Answer status</h2></header>
+      {{donut $d.StatusSeries $d.TotalRequirements ""}}
+    </section>
+    <section class="card">
+      <header class="card-head"><h2>Pipeline board</h2></header>
+      <ul class="board">
+        {{range $d.StageOrder}}<li><span>{{status .}}</span><b>{{index $d.StageBoard .}}</b></li>{{end}}
+      </ul>
+    </section>
+  </div>
+
+  <section class="card w4">
+    <header class="card-head"><h2>Review queue</h2></header>
+    {{if $d.ReviewerLoad}}{{bar $d.ReviewerLoad 320}}{{else}}<p class="empty-inline">Nothing waiting for review.</p>{{end}}
+  </section>
+
+  <section class="card w4">
+    <header class="card-head"><h2>Evidence labels</h2></header>
+    {{donut $d.Labels 0 ""}}
+    <p class="muted small">Labels come from the deterministic claim verifier and the evidence gate, never from model confidence.</p>
+  </section>
+
+  <section class="card w4">
+    <header class="card-head"><h2>Recent activity</h2><a class="small" href="/notifications">notifications →</a></header>
+    <ul class="feed">
+      {{range $d.Activity}}<li><span class="mono muted">{{ago .CreatedAt}}</span> <b>{{replace .EventType "." " "}}</b>{{if .UserID}} · {{with index $.Data.Users .UserID}}{{.Name}}{{end}}{{end}}</li>{{else}}<li class="muted">No activity yet.</li>{{end}}
+    </ul>
+  </section>
+
+</section>
+{{end}}

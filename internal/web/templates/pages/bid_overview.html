@@ -1,0 +1,130 @@
+{{define "content"}}
+{{$s := .Data.S}}{{$b := .Bid}}{{$run := $s.Run}}
+<section class="card bid-header">
+  <div class="bid-title">
+    <p class="eyebrow">{{$b.BuyerName}}{{if $b.BuyerURL}} · <a href="{{$b.BuyerURL}}" rel="noopener" target="_blank">site ↗</a>{{end}}</p>
+    <h1>{{$b.Name}}</h1>
+    <div class="meta-row">
+      {{template "pill" $b.Status}}
+      {{if $b.Decision}}<span class="pill {{if eq $b.Decision "bid"}}ok{{else}}danger{{end}}">Decision: {{title $b.Decision}}</span>{{end}}
+      <span class="mono muted">Deadline {{if $b.Deadline}}{{datetime $b.Deadline}} · <b class="{{if lt $s.DaysLeft 3}}danger{{else if lt $s.DaysLeft 8}}warn{{end}}">{{$s.DaysLeft}} days</b>{{else}}—{{end}}</span>
+      <span class="mono muted">Value {{money $b.EstimatedValue}}</span>
+      <span class="mono muted">Owner {{if $s.Owner.Name}}{{$s.Owner.Name}}{{else}}unassigned{{end}}</span>
+    </div>
+  </div>
+  <div class="bid-progress">
+    <div class="k-value">{{$s.CoveragePct}}%</div>
+    <div class="muted small">evidence coverage · {{$s.Approved}}/{{$s.Total}} approved</div>
+    {{progress $s.ProgressPct ""}}
+    <a class="btn" href="{{$s.PrimaryLink}}">{{$s.PrimaryAction}}</a>
+  </div>
+</section>
+
+<section class="card" id="pipeline" data-run="{{if $run}}{{$run.ID}}{{end}}" data-run-status="{{if $run}}{{$run.Status}}{{end}}">
+  <header class="card-head">
+    <h2>Pipeline</h2>
+    <div class="actions">
+      {{if $run}}<span class="pill {{tone $run.Status}}"><i>{{icon $run.Status}}</i>{{status $run.Status}} · {{stage $run.CurrentStage}}</span>{{end}}
+      {{if .CanAction "pipeline.run"}}
+        {{if and $run (or (eq $run.Status "queued") (eq $run.Status "running"))}}
+          <form method="post" action="/bids/{{$b.ID}}/pipeline/cancel"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn small ghost" type="submit">Cancel run</button></form>
+        {{else if and $run (eq $run.Status "failed")}}
+          <form method="post" action="/bids/{{$b.ID}}/pipeline/resume"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn small" type="submit">Resume run</button></form>
+        {{else if not (and $run (eq $run.Status "waiting_for_human"))}}
+          <form method="post" action="/bids/{{$b.ID}}/pipeline/start" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}">
+            <button class="btn small" type="submit">Run pipeline</button>
+            {{if $.Demo}}<button class="btn small ghost" type="submit" name="auto" value="1" title="Demo only: gates are auto-approved on synthetic data">Run with auto gates</button>{{end}}
+          </form>
+        {{end}}
+      {{end}}
+    </div>
+  </header>
+  {{template "stages" .Data.Stages}}
+  {{if and $run (eq $run.Status "waiting_for_human")}}
+  <div class="gate-box">
+    <div>
+      <b>{{stage $run.Gate}}</b>
+      <p class="muted">{{if eq $run.Gate "GATE_1_CONFIRM_REQUIREMENTS"}}Review the extracted requirements (edit, merge, flag unanchored items) then confirm the matrix.{{else if eq $run.Gate "GATE_2_BID_DECISION"}}The qualification scorecard below is evidence, not a decision. Record bid / no-bid.{{else if eq $run.Gate "GATE_3_REVIEWER_APPROVALS"}}Reviewers approve verified answers; SME tasks remain open for evidence gaps.{{else}}QA must show zero open blockers before export sign-off.{{end}}</p>
+      {{if $run.Error}}<p class="danger small">{{$run.Error}}</p>{{end}}
+    </div>
+    <div class="actions">
+      {{if eq $run.Gate "GATE_1_CONFIRM_REQUIREMENTS"}}<a class="btn" href="/bids/{{$b.ID}}/requirements?flag=unconfirmed">Review requirements</a>
+      {{else if eq $run.Gate "GATE_2_BID_DECISION"}}{{if .CanAction "gate.approve"}}<form method="post" action="/bids/{{$b.ID}}/decision" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn" name="decision" value="bid">Bid</button><button class="btn ghost" name="decision" value="no_bid">No bid</button></form>{{end}}
+      {{else if eq $run.Gate "GATE_3_REVIEWER_APPROVALS"}}<a class="btn ghost" href="/bids/{{$b.ID}}/requirements?status=in_review">Open review queue</a>{{if .CanAction "gate.approve"}}<form method="post" action="/bids/{{$b.ID}}/pipeline/gate" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn" type="submit">Approve gate</button></form>{{end}}
+      {{else}}<a class="btn ghost" href="/bids/{{$b.ID}}/qa">Open QA checklist</a>{{if .CanAction "gate.approve"}}<form method="post" action="/bids/{{$b.ID}}/pipeline/gate" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn" type="submit">Sign off export</button></form>{{end}}{{end}}
+    </div>
+  </div>
+  {{end}}
+  {{if $run}}
+  <details class="drawer">
+    <summary>Run log <span class="muted mono">{{len .Data.Steps}} recent steps · run {{trunc $run.ID 8}} · {{$run.Mode}}{{if $run.AutoGates}} · auto gates{{end}}</span></summary>
+    <table class="table compact mono">
+      <thead><tr><th>Stage</th><th>Entity</th><th>Status</th><th>Note</th><th>When</th></tr></thead>
+      <tbody>{{range .Data.Steps}}<tr><td>{{.Stage}}</td><td>{{trunc .EntityID 28}}</td><td>{{template "pill" .Status}}</td><td class="wrap">{{.Note}}{{if .Error}}<span class="danger"> {{.Error}}</span>{{end}}{{if .ProviderMode}} <span class="muted">[{{.ProviderMode}}]</span>{{end}}</td><td class="muted">{{ago .FinishedAt}}</td></tr>{{end}}</tbody>
+    </table>
+    {{if gt (len .Data.Runs) 1}}<p class="muted small">{{len .Data.Runs}} runs recorded for this bid; unchanged steps are skipped on re-runs.</p>{{end}}
+  </details>
+  {{end}}
+</section>
+
+<div class="grid-3">
+  <section class="card">
+    <header class="card-head"><h2>Requirements</h2><a class="mono" href="/bids/{{$b.ID}}/requirements">open →</a></header>
+    <ul class="stats">
+      <li><b>{{$s.Total}}</b> total <span class="muted">· {{$s.Mandatory}} mandatory ({{$s.MandatoryDone}} done)</span></li>
+      <li><b>{{$s.Approved}}</b> approved</li>
+      <li><b>{{$s.InReview}}</b> in review</li>
+      <li><b>{{$s.NeedsEvidence}}</b> need evidence <span class="muted">· {{.Data.OpenTasks}} open SME tasks</span></li>
+      {{if $s.Unanchored}}<li class="warn"><b>{{$s.Unanchored}}</b> unanchored (no exact source span)</li>{{end}}
+      {{if $s.Unconfirmed}}<li class="warn"><b>{{$s.Unconfirmed}}</b> unconfirmed</li>{{end}}
+    </ul>
+    {{if $s.Blockers}}<p><a class="pill danger" href="/bids/{{$b.ID}}/qa">{{$s.Blockers}} QA blockers</a></p>{{end}}
+  </section>
+  <section class="card">
+    <header class="card-head"><h2>Qualification</h2><span class="pill {{if eq .Data.Qual.Priority "high"}}ok{{else if eq .Data.Qual.Priority "low"}}danger{{else}}warn{{end}}">{{title .Data.Qual.Priority}} · {{int (mulf .Data.Qual.Weighted 100)}}</span></header>
+    {{radar .Data.RadarLabels .Data.RadarValues}}
+    {{if .Data.Qual.Qualification.Flags}}<ul class="flags">{{range .Data.Qual.Qualification.Flags}}<li>⚑ {{.}}</li>{{end}}</ul>{{end}}
+    <p class="muted small">Evidence for a human decision at Gate 2, never a verdict.</p>
+  </section>
+  <section class="card">
+    <header class="card-head"><h2>Documents</h2></header>
+    <ul class="docs">
+      {{range .Data.Docs}}<li><span class="pill muted">{{.Category}}</span> <b>{{.Name}}</b>{{if .ParseError}} <span class="danger">parse error</span>{{end}}<br><span class="mono muted">{{ago .CreatedAt}} · <a href="/documents/{{.ID}}/download">download</a>{{if or (eq .Category "rfp") (eq .Category "questionnaire")}} · <a href="/bids/{{$b.ID}}/documents/{{.ID}}/preview">preview</a>{{if $.CanAction "req.edit"}} · <form method="post" action="/bids/{{$b.ID}}/extract" class="inline"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><input type="hidden" name="doc_id" value="{{.ID}}"><button class="linkish" type="submit">re-extract</button></form>{{end}}{{end}}</span></li>{{else}}<li class="muted">No documents yet. Upload the RFP to extract requirements.</li>{{end}}
+    </ul>
+    {{if .CanAction "doc.upload"}}
+    <form method="post" action="/bids/{{$b.ID}}/documents" enctype="multipart/form-data" class="upload">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <label>File <input type="file" name="file" required accept=".pdf,.docx,.xlsx,.csv,.txt,.md"></label>
+      <label>Type <select name="category"><option value="rfp">RFP</option><option value="questionnaire">Questionnaire</option><option value="attachment">Attachment</option><option value="addendum">Addendum (use Addenda tab)</option></select></label>
+      <label class="check"><input type="checkbox" name="extract" value="1" checked> Extract requirements now</label>
+      <button class="btn small" type="submit">Upload</button>
+    </form>
+    {{end}}
+  </section>
+</div>
+
+<div class="grid-2-1">
+  <section class="card">
+    <header class="card-head"><h2>Bid details</h2></header>
+    {{if .CanAction "bid.edit"}}
+    <form method="post" action="/bids/{{$b.ID}}" class="form-grid">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <label class="span2">Name <input name="name" value="{{$b.Name}}" required></label>
+      <label>Buyer <input name="buyer_name" value="{{$b.BuyerName}}"></label>
+      <label>Buyer URL <input name="buyer_url" value="{{$b.BuyerURL}}"></label>
+      <label>Estimated value <input name="estimated_value" type="number" min="0" value="{{int $b.EstimatedValue}}"></label>
+      <label>Deadline <input name="deadline" value="{{$b.Deadline}}" placeholder="2026-10-30T17:00:00Z"></label>
+      <label>Owner <select name="owner_id"><option value="">unassigned</option>{{range .Data.Users}}<option value="{{.ID}}" {{selected .ID $b.OwnerID}}>{{.Name}}</option>{{end}}</select></label>
+      <label>Status <select name="status">{{range $st := (list "intake" "qualification" "drafting" "review" "final_qa" "ready" "closed_won" "closed_lost" "archived")}}<option value="{{$st}}" {{selected $st $b.Status}}>{{status $st}}</option>{{end}}</select></label>
+      <label class="span2">Description <textarea name="description" rows="2">{{$b.Description}}</textarea></label>
+      <div class="span2"><button class="btn small" type="submit">Save</button></div>
+    </form>
+    {{else}}<p>{{$b.Description}}</p>{{end}}
+  </section>
+  <section class="card">
+    <header class="card-head"><h2>Activity</h2><a class="mono" href="/bids/{{$b.ID}}/export#audit">audit trail →</a></header>
+    <ul class="feed">{{range .Data.Activity}}<li><span class="mono muted">{{ago .CreatedAt}}</span> <b>{{replace .EventType "." " "}}</b>{{with index $.Data.UserMap .UserID}} · {{.Name}}{{end}}</li>{{else}}<li class="muted">No activity yet.</li>{{end}}</ul>
+    {{if .Data.Addenda}}<p class="muted small">{{.Data.Addenda}} addendum processed · <a href="/bids/{{$b.ID}}/addenda">see diff</a></p>{{end}}
+  </section>
+</div>
+{{end}}

@@ -1,0 +1,16 @@
+[
+  {"id": "company_overview", "label": "Company overview", "expiryMonths": 12},
+  {"id": "product_documentation", "label": "Product documentation", "expiryMonths": 6},
+  {"id": "security_policy", "label": "Security policy", "expiryMonths": 12},
+  {"id": "privacy_policy", "label": "Privacy policy", "expiryMonths": 12},
+  {"id": "implementation_methodology", "label": "Implementation methodology", "expiryMonths": 12},
+  {"id": "case_study", "label": "Case study", "expiryMonths": 24},
+  {"id": "customer_reference", "label": "Customer reference", "expiryMonths": 12},
+  {"id": "employee_bio", "label": "Employee bio", "expiryMonths": 6},
+  {"id": "standard_qa", "label": "Standard Q&A", "expiryMonths": 6},
+  {"id": "certification", "label": "Certification", "expiryMonths": 12},
+  {"id": "commercial", "label": "Commercial terms", "expiryMonths": 12},
+  {"id": "rfp", "label": "RFP / buyer document", "expiryMonths": 0},
+  {"id": "addendum", "label": "Addendum", "expiryMonths": 0},
+  {"id": "questionnaire", "label": "Questionnaire", "expiryMonths": 0}
+]

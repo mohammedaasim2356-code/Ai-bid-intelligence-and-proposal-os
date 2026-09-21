@@ -1,0 +1,97 @@
+{{define "layout"}}<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{if .Title}}{{.Title}} · BidOS{{else}}BidOS{{end}}</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var t=localStorage.getItem('bidos-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/static/app.css?v={{.Version}}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%232f6bff'/%3E%3Cpath d='M9 9h9a5 5 0 0 1 0 10h-9zM9 19h10a5 5 0 0 1 0 10H9z' fill='%23ffffff' transform='translate(1 -3) scale(.9)'/%3E%3C/svg%3E">
+{{block "head" .}}{{end}}
+</head>
+<body class="{{if .Viewer.OK}}app{{else}}public{{end}}">
+{{if .Viewer.OK}}
+<div class="shell">
+  <nav class="rail" aria-label="Primary">
+    <a class="logo" href="/dashboard" aria-label="BidOS home">B</a>
+    <a class="nav-ico{{if eq .Nav "overview"}} active{{end}}" href="/dashboard" {{if eq .Nav "overview"}}aria-current="page"{{end}} aria-label="Overview">{{template "ico" "overview"}}<span class="tip">Overview</span></a>
+    <a class="nav-ico{{if eq .Nav "bids"}} active{{end}}" href="/bids" {{if eq .Nav "bids"}}aria-current="page"{{end}} aria-label="Bids">{{template "ico" "bids"}}<span class="tip">Bids</span></a>
+    <a class="nav-ico{{if eq .Nav "knowledge"}} active{{end}}" href="/knowledge" {{if eq .Nav "knowledge"}}aria-current="page"{{end}} aria-label="Knowledge">{{template "ico" "knowledge"}}<span class="tip">Knowledge</span></a>
+    <a class="nav-ico{{if eq .Nav "tasks"}} active{{end}}" href="/tasks" {{if eq .Nav "tasks"}}aria-current="page"{{end}} aria-label="Tasks">{{template "ico" "tasks"}}<span class="tip">Tasks</span>{{if .Data.MyOpenTasks}}<span class="count">{{.Data.MyOpenTasks}}</span>{{end}}</a>
+    <a class="nav-ico{{if eq .Nav "analytics"}} active{{end}}" href="/analytics" {{if eq .Nav "analytics"}}aria-current="page"{{end}} aria-label="Analytics">{{template "ico" "analytics"}}<span class="tip">Analytics</span></a>
+    <span class="sep" aria-hidden="true"></span>
+    <a class="nav-ico{{if eq .Nav "quality"}} active{{end}}" href="/quality" aria-label="Quality">{{template "ico" "quality"}}<span class="tip">Quality</span></a>
+    <a class="nav-ico{{if eq .Nav "integrations"}} active{{end}}" href="/integrations" aria-label="Integrations">{{template "ico" "integrations"}}<span class="tip">Integrations</span></a>
+    <span class="spacer"></span>
+    <a class="nav-ico{{if eq .Nav "settings"}} active{{end}}" href="/settings" aria-label="Settings">{{template "ico" "settings"}}<span class="tip">Settings</span></a>
+  </nav>
+  <div class="work">
+    {{if .Demo}}<div class="demo-banner" role="status"><span class="dot"></span>SYNTHETIC DEMO — No real customer data or live proposal submission.<span class="mono">{{.Pack.Name}} · {{.Viewer.Org.Name}}</span></div>{{end}}
+    <header class="topbar">
+      <div class="greet">
+        {{if eq .Nav "overview"}}
+        <h1>{{greeting}}, {{firstName .Viewer.User.Name}}</h1>
+        <p>{{with .Data.Subtitle}}{{.}}{{else}}Here is where your bids stand today{{end}}</p>
+        {{else}}
+        <p class="hi">{{greeting}}, {{firstName .Viewer.User.Name}} — <a href="/dashboard">back to overview</a></p>
+        {{end}}
+      </div>
+      <div class="topbar-right">
+        <div class="theme-toggle" role="group" aria-label="Theme">
+          <button type="button" data-theme-set="light" title="Light" aria-label="Light theme">☀</button>
+          <button type="button" data-theme-set="dim" title="Dim" aria-label="Dim theme">◐</button>
+          <button type="button" data-theme-set="dark" title="Dark" aria-label="Dark theme">🌙</button>
+        </div>
+        <div class="sync">
+          <span class="lbl"><b>{{if .Live}}Live AI{{else}}Demo AI{{end}}</b><span>{{.Version}}</span></span>
+          <a class="icon-btn bell" href="/notifications" aria-label="Notifications{{if .Unread}}, {{.Unread}} unread{{end}}">{{template "ico" "bell"}}{{if .Unread}}<span class="badge-count">{{.Unread}}</span>{{end}}</a>
+        </div>
+        <details class="user-menu">
+          <summary><span class="avatar" title="{{.Viewer.User.Name}} · {{role .Viewer.User.Role}}">{{initials .Viewer.User.Name}}</span></summary>
+          <div class="menu">
+            <div class="menu-head"><b>{{.Viewer.User.Name}}</b><br><span class="muted mono">{{.Viewer.User.Email}}</span><br><span class="muted small">{{role .Viewer.User.Role}}</span></div>
+            <a href="/settings">Settings</a>
+            <a href="/quality">Quality</a>
+            {{if and .Demo (.CanAction "pipeline.run")}}<form method="post" action="/demo/reset" data-confirm="Reset the demo workspace to its seeded state? All demo answers and tasks will be discarded."><input type="hidden" name="_csrf" value="{{.CSRF}}"><button type="submit" class="linkish">Reset demo workspace</button></form>{{end}}
+            <form method="post" action="/logout"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button type="submit" class="linkish">Sign out</button></form>
+          </div>
+        </details>
+      </div>
+    </header>
+    {{if .Bid}}
+    <div class="bidbar">
+      <div class="crumbs"><a href="/bids">Bids</a> / <span>{{.Bid.Name}}</span></div>
+      <nav class="subtabs" aria-label="Bid sections">
+        {{$b := .Bid.ID}}{{$t := .BidTab}}
+        <a href="/bids/{{$b}}" {{if eq $t "overview"}}class="active"{{end}}>Overview</a>
+        <a href="/bids/{{$b}}/requirements" {{if eq $t "requirements"}}class="active"{{end}}>Requirements</a>
+        <a href="/bids/{{$b}}/tasks" {{if eq $t "tasks"}}class="active"{{end}}>Tasks</a>
+        <a href="/bids/{{$b}}/proposal" {{if eq $t "proposal"}}class="active"{{end}}>Proposal</a>
+        <a href="/bids/{{$b}}/qa" {{if eq $t "qa"}}class="active"{{end}}>QA</a>
+        <a href="/bids/{{$b}}/export" {{if eq $t "export"}}class="active"{{end}}>Export</a>
+        <a href="/bids/{{$b}}/addenda" {{if eq $t "addenda"}}class="active"{{end}}>Addenda</a>
+        <a href="/bids/{{$b}}/analytics" {{if eq $t "analytics"}}class="active"{{end}}>Analytics</a>
+      </nav>
+    </div>
+    {{end}}
+    {{if .Flash}}<div class="flash" role="alert"><span>{{.Flash}}</span><button type="button" class="close" aria-label="Dismiss" onclick="this.parentNode.remove()">×</button></div>{{end}}
+    <main class="container">
+    {{template "content" .}}
+    </main>
+    <footer class="foot mono">BidOS {{.Version}} · {{if .Live}}live AI available (demo floor always on){{else}}demo AI mode — deterministic, no keys{{end}} · <a href="/health">health</a></footer>
+  </div>
+</div>
+{{else}}
+{{if .Demo}}<div class="demo-banner" role="status"><span class="dot"></span>SYNTHETIC DEMO — No real customer data or live proposal submission.</div>{{end}}
+{{if .Flash}}<div class="flash" role="alert"><span>{{.Flash}}</span><button type="button" class="close" aria-label="Dismiss" onclick="this.parentNode.remove()">×</button></div>{{end}}
+<main class="public-main">
+{{template "content" .}}
+</main>
+{{end}}
+<script src="/static/app.js?v={{.Version}}"></script>
+{{block "scripts" .}}{{end}}
+</body>
+</html>{{end}}

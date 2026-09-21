@@ -1,0 +1,14 @@
+{
+  "title": "Addendum No. 1 to RFP-2026-014",
+  "fileName": "RFP-2026-014-Addendum-1.docx",
+  "paragraphs": [
+    "This addendum forms part of RFP-2026-014 (Orion Enterprise Cloud Modernization Program). It responds to vendor questions received before 9 October 2026. All other requirements remain unchanged.",
+    "Requirement 4.11 is amended to read: The platform must retain audit logs of all administrative actions for at least 24 months.",
+    "Requirement 9.7 is amended to read: Describe planned maintenance notification periods, blackout-window options, and how emergency maintenance is communicated.",
+    "New requirement 5.9: Describe your approach to cloud cost reporting and chargeback per business unit.",
+    "New requirement 6.13: Confirm that all support staff with access to customer data are located in the EU or North America.",
+    "Requirement 10.6 is withdrawn.",
+    "The submission deadline in requirement 2.1 is unchanged."
+  ],
+  "expected": {"changed": ["4.11", "9.7"], "new": ["5.9", "6.13"], "removed": ["10.6"]}
+}

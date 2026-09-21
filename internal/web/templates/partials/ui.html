@@ -1,0 +1,42 @@
+{{define "ico"}}<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+{{- if eq . "overview"}}<rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/>
+{{- else if eq . "bids"}}<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/>
+{{- else if eq . "knowledge"}}<path d="M4 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16H6a2 2 0 0 1-2-2z"/><path d="M18 17H6a2 2 0 0 0-2 2"/><path d="M9 7h6"/>
+{{- else if eq . "tasks"}}<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 12.5l2.5 2.5L16 9.5"/><path d="M8 2v4M16 2v4"/>
+{{- else if eq . "analytics"}}<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>
+{{- else if eq . "quality"}}<path d="M12 3l2.3 5.1L20 9.6l-4 3.9 1 5.6-5-2.8-5 2.8 1-5.6-4-3.9 5.7-.5z"/>
+{{- else if eq . "integrations"}}<path d="M16 3h5v5"/><path d="M21 3l-7 7"/><path d="M8 21H3v-5"/><path d="M3 21l7-7"/><path d="M21 14v4a3 3 0 0 1-3 3h-4"/><path d="M3 10V6a3 3 0 0 1 3-3h4"/>
+{{- else if eq . "settings"}}<circle cx="12" cy="12" r="3.2"/><path d="M19.4 14.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.2a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-3-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-3l-.1-.1A2 2 0 1 1 7 3.6l.1.1a1.7 1.7 0 0 0 2.9-1.2V2a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9H22a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+{{- else if eq . "bell"}}<path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+{{- end}}</svg>{{end}}
+
+{{define "pill"}}<span class="pill {{tone .}}"><i aria-hidden="true">{{icon .}}</i>{{status .}}</span>{{end}}
+
+{{define "labelpill"}}{{if .}}<span class="pill {{label .}}">{{.}}</span>{{end}}{{end}}
+
+{{define "empty"}}<div class="empty">
+  <h3>{{.Title}}</h3>
+  <p>{{.Why}}</p>
+  {{if .Href}}<a class="btn" href="{{.Href}}">{{.Action}}</a>{{end}}
+</div>{{end}}
+
+{{define "stages"}}<ol class="tracker" aria-label="Pipeline stages">
+{{range .}}<li class="st-{{.State}} {{if .Gate}}gate{{end}}" title="{{.Label}}"><span class="dot"></span><span class="lbl">{{.Label}}</span></li>{{end}}
+</ol>{{end}}
+
+{{define "evidence"}}
+<article class="evidence {{if not .Approved}}rejected{{end}} {{if .Expired}}expired{{end}}" id="{{if .Marker}}cite-{{.Marker}}{{end}}">
+  <header>
+    <span class="eyebrow">Source{{if .Marker}} · citation {{.Marker}}{{end}}</span>
+    <b>{{.Chunk.DocName}}{{if .Chunk.DocVersion}} v{{.Chunk.DocVersion}}{{end}}</b>
+    <span class="mono muted">{{if .Chunk.SectionPath}}{{.Chunk.SectionPath}}{{end}}{{if .Chunk.PageNumber}} · p{{.Chunk.PageNumber}}{{end}}{{if .Chunk.CellRange}} · {{.Chunk.SheetName}}!{{.Chunk.CellRange}}{{end}}</span>
+  </header>
+  <blockquote>{{.Excerpt}}</blockquote>
+  <footer>
+    {{if .Approved}}<span class="pill ok">✓ Qualified evidence</span>{{else}}<span class="pill muted">Considered, not qualified</span>{{end}}
+    {{if .Expired}}<span class="pill warn">Expired source</span>{{end}}
+    {{if ne .Chunk.DocApproval "approved"}}<span class="pill warn">{{.Chunk.DocApproval}}</span>{{end}}
+    <a class="mono" href="/knowledge/{{.Chunk.DocumentID}}">open document →</a>
+  </footer>
+</article>
+{{end}}

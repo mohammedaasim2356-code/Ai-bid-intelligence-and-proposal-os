@@ -1,0 +1,59 @@
+{{define "content"}}
+{{$f := .Data.Filters}}{{$pack := .Data.Pack}}
+<div class="page-head">
+  <div><p class="eyebrow">Evidence base</p><h1>Knowledge</h1><p class="muted">{{.Data.Total}} documents · {{index .Data.Counts "approved"}} approved · {{index .Data.Counts "unapproved"}} unapproved{{if .Data.Expired}} · <span class="warn">{{.Data.Expired}} expired</span>{{end}} · embeddings: <span class="mono">{{.Data.EmbedderID}}</span></p></div>
+  <div class="actions"><a class="btn ghost" href="/library">Answer Library</a></div>
+</div>
+<div class="grid-2-1">
+  <section class="card">
+    <form method="get" class="filters inline-filters" role="search">
+      <input type="search" name="q" value="{{$f.q}}" placeholder="Search name or tags" aria-label="Search">
+      <select name="category" aria-label="Category"><option value="">Any type</option>{{range $pack.KnowledgeTypes}}<option value="{{.ID}}" {{selected .ID $f.category}}>{{.Label}}</option>{{end}}</select>
+      <select name="state" aria-label="Approval"><option value="">Any state</option><option value="approved" {{selected "approved" $f.state}}>Approved</option><option value="unapproved" {{selected "unapproved" $f.state}}>Unapproved</option><option value="rejected" {{selected "rejected" $f.state}}>Rejected</option></select>
+      <button class="btn small ghost" type="submit">Filter</button>
+    </form>
+    {{if .Data.Docs}}
+    <table class="table">
+      <thead><tr><th>Document</th><th>Type</th><th>Approval</th><th>Expires</th><th>Source</th></tr></thead>
+      <tbody>
+      {{range .Data.Docs}}
+      <tr>
+        <td><a href="/knowledge/{{.ID}}"><b>{{.Name}}</b></a>{{if .Version}} <span class="muted mono">v{{.Version}}</span>{{end}}{{if .Tags}}<br><span class="muted small">{{join .Tags ", "}}</span>{{end}}{{if .ClientDisclosure}}<br><span class="pill {{if eq .ClientDisclosure "do_not_use"}}danger{{else}}muted{{end}}">{{.ClientDisclosure}}</span>{{end}}</td>
+        <td>{{.Category}}</td>
+        <td><span class="pill {{if eq .ApprovalState "approved"}}ok{{else if eq .ApprovalState "rejected"}}danger{{else}}warn{{end}}">{{.ApprovalState}}</span></td>
+        <td>{{if .ExpiresAt}}<span class="{{if lt .ExpiresAt $.Data.Today}}danger{{end}}">{{.ExpiresAt}}</span>{{else}}<span class="muted">—</span>{{end}}</td>
+        <td class="muted">{{.SourceType}}</td>
+      </tr>
+      {{end}}
+      </tbody>
+    </table>
+    {{else}}{{template "empty" (dict "Title" "No knowledge documents" "Why" "Add approved company material so answers can be grounded in evidence; nothing is drafted without a citable source.")}}{{end}}
+  </section>
+  <aside class="stack">
+    {{if .CanAction "doc.upload"}}
+    <section class="card">
+      <header class="card-head"><h2>Add document</h2></header>
+      <form method="post" action="/knowledge/upload" enctype="multipart/form-data" class="stack">
+        <input type="hidden" name="_csrf" value="{{.CSRF}}">
+        <label>File <input type="file" name="file" required accept=".pdf,.docx,.xlsx,.csv,.txt,.md"></label>
+        <label>Type <select name="category">{{range $pack.KnowledgeTypes}}<option value="{{.ID}}">{{.Label}}{{if .ExpiryMonths}} (expires after {{.ExpiryMonths}} mo){{end}}</option>{{end}}</select></label>
+        {{if .CanAction "library.edit"}}<label>Approval <select name="approval"><option value="unapproved">Unapproved (review first)</option><option value="approved">Approved</option></select></label>{{end}}
+        <label>Expires <input type="date" name="expires_at"></label>
+        <label>Tags <input name="tags" placeholder="comma, separated"></label>
+        {{if $pack.Guardrails.ClientDisclosure}}<label>Client disclosure <select name="disclosure"><option value="">n/a</option><option value="allowed">allowed</option><option value="anonymised">anonymised only</option><option value="do_not_use">do not use</option></select></label>{{end}}
+        <button class="btn" type="submit">Ingest</button>
+        <p class="muted small">Parsed, chunked with locators and embedded locally. Unapproved and expired material is excluded from retrieval.</p>
+      </form>
+    </section>
+    {{end}}
+    <section class="card">
+      <header class="card-head"><h2>Rules</h2></header>
+      <ul class="rules">
+        <li>Only <b>approved</b>, unexpired documents can be cited.</li>
+        <li>Buyer files are <b>untrusted</b>; their instructions are never executed.</li>
+        <li>Rejecting or re-versioning a document flags every citing answer for re-review.</li>
+      </ul>
+    </section>
+  </aside>
+</div>
+{{end}}

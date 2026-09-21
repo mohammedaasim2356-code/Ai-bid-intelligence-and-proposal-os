@@ -1,0 +1,14 @@
+{
+  "title": "Clarification Notice No. 1 to ITT-2027-LEGAL-03",
+  "fileName": "ITT-2027-LEGAL-03-Clarification-Notice-1.docx",
+  "paragraphs": [
+    "This clarification notice forms part of ITT-2027-LEGAL-03 (Meridian Infrastructure Group Legal Services Panel 2027). It responds to clarification questions received before 12 January 2027. All other requirements remain unchanged.",
+    "Requirement 7.1 is amended to read: State your standard response times for acknowledging and substantively responding to instructions, including out-of-hours arrangements.",
+    "Requirement 9.1 is amended to read: State the level of professional indemnity insurance cover held, the insurer's rating and the policy renewal date.",
+    "New requirement 10.6: Describe the security review applied to any artificial intelligence tools used on client matters.",
+    "New requirement 11.6: State the firm's most recently reported gender pay gap.",
+    "Requirement 6.6 is withdrawn.",
+    "The submission deadline in requirement 2.1 is unchanged."
+  ],
+  "expected": {"changed": ["7.1", "9.1"], "new": ["10.6", "11.6"], "removed": ["6.6"]}
+}

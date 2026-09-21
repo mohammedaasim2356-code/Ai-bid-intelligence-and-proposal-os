@@ -1,0 +1,17 @@
+{{define "content"}}
+<div class="page-head"><div><p class="eyebrow">Bids</p><h1>New bid</h1><p class="muted">Create the opportunity, then upload the RFP or questionnaire on the bid page to extract requirements.</p></div></div>
+<section class="card narrow">
+<form method="post" action="/bids" class="form-grid">
+  <input type="hidden" name="_csrf" value="{{.CSRF}}">
+  <label class="span2">Bid name <input name="name" required placeholder="e.g. Orion Enterprise Cloud Modernization Program"></label>
+  <label>Buyer <input name="buyer_name" placeholder="Organization issuing the RFP"></label>
+  <label>Buyer URL <input name="buyer_url" type="url" placeholder="https://"></label>
+  <label>Estimated value (USD) <input name="estimated_value" type="number" min="0" step="1000"></label>
+  <label>Deadline <input name="deadline" type="datetime-local"></label>
+  <label>Owner <select name="owner_id">{{range .Data.Users}}<option value="{{.ID}}" {{selected .ID $.Data.Me}}>{{.Name}} · {{role .Role}}</option>{{end}}</select></label>
+  <label>Status <select name="status"><option value="intake">Intake</option><option value="qualification">Qualification</option><option value="drafting">Drafting</option></select></label>
+  <label class="span2">Description <textarea name="description" rows="3"></textarea></label>
+  <div class="span2 actions"><button class="btn" type="submit">Create bid</button><a class="btn ghost" href="/bids">Cancel</a></div>
+</form>
+</section>
+{{end}}

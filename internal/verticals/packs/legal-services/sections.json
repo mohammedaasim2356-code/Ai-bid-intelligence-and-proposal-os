@@ -1,0 +1,16 @@
+[
+  {"key": "cover", "title": "Cover", "hint": "Panel name, client, submission date, relationship partner contact."},
+  {"key": "executive_summary", "title": "Executive Summary", "hint": "Why the firm, in one page. Reference the client's stated panel objectives."},
+  {"key": "firm_overview", "title": "About the Firm", "hint": "Insert approved firm overview answers."},
+  {"key": "understanding", "title": "Understanding of Your Requirements", "hint": "Restate the panel scope, work types and volumes."},
+  {"key": "expertise", "title": "Practice Expertise", "hint": "Insert practice capability answers."},
+  {"key": "team", "title": "Proposed Team", "hint": "Relationship partner, lead partners, leverage and continuity."},
+  {"key": "experience", "title": "Relevant Experience", "hint": "Matter examples and referees (respect client disclosure status)."},
+  {"key": "service", "title": "Service Delivery", "hint": "Response times, reporting, KPIs, secondments, training."},
+  {"key": "fees", "title": "Fees and Value", "hint": "[PLACEHOLDER: pricing schedule Attachment B]"},
+  {"key": "risk", "title": "Risk, Compliance and Data Security", "hint": "Insurance, information security, data protection, AML."},
+  {"key": "technology", "title": "Technology and Innovation", "hint": "Matter management, automation, AI policy, legal project management."},
+  {"key": "diversity", "title": "Diversity, ESG and Pro Bono", "hint": "Diversity data, environmental commitments, community work."},
+  {"key": "conflicts", "title": "Conflicts and Terms", "hint": "Conflict process, confidentiality, contractual positions."},
+  {"key": "appendices", "title": "Appendices", "hint": "CVs, insurance certificate, pricing schedule."}
+]

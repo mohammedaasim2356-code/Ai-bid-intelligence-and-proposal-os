@@ -1,0 +1,22 @@
+{{define "content"}}
+{{$s := .Data.S}}
+<div class="page-head"><div><p class="eyebrow">Bid analytics</p><h1>{{.Bid.Name}}</h1><p class="muted">Every figure is computed from database state.</p></div></div>
+<section class="kpis">
+  <div class="kpi card"><span class="k-label">Coverage</span><span class="k-value">{{$s.CoveragePct}}%</span>{{progress $s.CoveragePct ""}}<span class="k-foot">{{$s.Approved}} / {{$s.Total}} approved</span></div>
+  <div class="kpi card"><span class="k-label">Mandatory</span><span class="k-value">{{$s.MandatoryDone}}<span class="muted"> / {{$s.Mandatory}}</span></span><span class="k-foot">mandatory items approved</span></div>
+  <div class="kpi card"><span class="k-label">Need evidence</span><span class="k-value">{{$s.NeedsEvidence}}</span><span class="k-foot">{{$s.OpenTasks}} open SME tasks</span></div>
+  <div class="kpi card"><span class="k-label">QA</span><span class="k-value">{{$s.Blockers}}</span><span class="k-foot">blockers · {{$s.Warnings}} warnings</span></div>
+  <div class="kpi card"><span class="k-label">Days left</span><span class="k-value">{{$s.DaysLeft}}</span><span class="k-foot">{{date .Bid.Deadline}}</span></div>
+</section>
+<div class="grid-3">
+  <section class="card"><header class="card-head"><h2>By status</h2></header>{{donut .Data.ByStatus $s.Total ""}}</section>
+  <section class="card"><header class="card-head"><h2>Evidence labels</h2></header>{{donut .Data.Labels 0 ""}}</section>
+  <section class="card"><header class="card-head"><h2>By section</h2></header>{{bar .Data.BySection 360}}</section>
+</div>
+<div class="grid-2-1">
+  <section class="card"><header class="card-head"><h2>By category</h2></header>{{bar .Data.ByCategory 640}}</section>
+  <section class="card"><header class="card-head"><h2>AI providers, 30 days</h2></header>
+    <table class="table compact"><thead><tr><th>Provider</th><th>Mode</th><th>Calls</th><th>Cached</th><th>Fallbacks</th></tr></thead><tbody>{{range .Data.Providers}}<tr><td>{{.ProviderID}}</td><td>{{.Mode}}</td><td>{{.Calls}}</td><td>{{.Cached}}</td><td>{{.Fallbacks}}</td></tr>{{else}}<tr><td colspan="5" class="muted">No provider calls recorded.</td></tr>{{end}}</tbody></table>
+  </section>
+</div>
+{{end}}

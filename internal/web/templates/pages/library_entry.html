@@ -1,0 +1,32 @@
+{{define "content"}}
+{{$e := .Data.E}}{{$pack := .Data.Pack}}
+<div class="page-head">
+  <div><p class="eyebrow"><a href="/library">Answer Library</a> / {{$pack.CategoryLabel $e.Category}}</p><h1>{{$e.CanonicalQuestion}}</h1>
+    <p class="meta-row"><span class="mono muted">approved by {{with index .Data.UserMap $e.ApprovedByID}}{{.Name}}{{end}} on {{date $e.ApprovedAt}}{{if .Data.SourceBid.Name}} · from <a href="/bids/{{.Data.SourceBid.ID}}">{{.Data.SourceBid.Name}}</a>{{end}} · reused {{$e.ReuseCount}}×</span>{{if $e.ReviewBy}}<span class="pill {{if lt $e.ReviewBy .Data.Today}}danger{{else}}muted{{end}}">review by {{$e.ReviewBy}}</span>{{end}}</p></div>
+  <div class="actions">{{if .CanAction "library.edit"}}<form method="post" action="/library/{{$e.ID}}/reapprove" class="inline"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn ghost" type="submit">Re-approve</button></form>{{end}}</div>
+</div>
+<div class="grid-2-1">
+  <section class="card">
+    {{if .CanAction "library.edit"}}
+    <form method="post" action="/library/{{$e.ID}}" class="stack">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <label>Canonical question <input name="question" value="{{$e.CanonicalQuestion}}"></label>
+      <label>Answer <textarea name="answer" rows="10">{{$e.AnswerText}}</textarea></label>
+      <div class="form-grid">
+        <label>Category <select name="category">{{range $pack.Categories}}<option value="{{.ID}}" {{selected .ID $e.Category}}>{{.Label}}</option>{{end}}</select></label>
+        <label>Review by <input type="date" name="review_by" value="{{$e.ReviewBy}}"></label>
+        <label class="span2">Tags <input name="tags" value="{{.Data.Tags}}"></label>
+      </div>
+      <div class="actions"><button class="btn" type="submit">Save</button>
+      <button class="btn ghost danger" type="submit" formaction="/library/{{$e.ID}}/delete" data-confirm="Delete this library entry?">Delete</button></div>
+    </form>
+    {{else}}<div class="reader">{{paras $e.AnswerText}}</div>{{end}}
+  </section>
+  <aside class="card evidence-rail">
+    <header class="card-head"><h2>Citations</h2></header>
+    {{range $i, $c := .Data.Cites}}
+    <article class="evidence cited"><header><span class="eyebrow">Citation {{add $i 1}}</span><b>{{$c.DocName}}{{if $c.DocVersion}} v{{$c.DocVersion}}{{end}}</b><span class="mono muted">{{$c.SectionPath}}</span></header><blockquote>{{trunc $c.Text 400}}</blockquote><footer>{{if ne $c.DocApproval "approved"}}<span class="pill warn">{{$c.DocApproval}} — reuse blocked</span>{{end}}<a class="mono" href="/knowledge/{{$c.DocumentID}}">open →</a></footer></article>
+    {{else}}<p class="empty-inline">No stored citations; this entry cannot be reused automatically.</p>{{end}}
+  </aside>
+</div>
+{{end}}

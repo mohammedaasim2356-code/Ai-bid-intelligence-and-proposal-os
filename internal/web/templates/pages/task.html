@@ -1,0 +1,49 @@
+{{define "content"}}
+{{$t := .Data.T}}{{$d := .Data.Detail}}
+<div class="page-head">
+  <div><p class="eyebrow"><a href="/tasks">Tasks</a> / {{$t.Bid.Name}}</p><h1>SME task · <span class="mono">{{$t.Requirement.Code}}</span> {{template "pill" $t.Status}}</h1>
+  <p class="muted">Requested by {{if $t.Requester.Name}}{{$t.Requester.Name}}{{else}}the pipeline{{end}} · assigned to {{if $t.Assignee.Name}}{{$t.Assignee.Name}}{{else}}—{{end}}{{if $t.DueAt}} · due {{date $t.DueAt}}{{end}}{{if $t.Overdue}} · <span class="danger">overdue</span>{{end}}</p></div>
+  <div class="actions"><a class="btn ghost" href="/bids/{{$t.Bid.ID}}/requirements?req={{$t.Requirement.ID}}">Open in workspace</a></div>
+</div>
+<div class="grid-2-1">
+  <section class="card">
+    <p class="eyebrow">Requirement</p>
+    <blockquote class="req-text">{{$t.Requirement.Text}}</blockquote>
+    <p class="eyebrow">Question for you</p>
+    <p class="big-q">{{$t.Question}}</p>
+    {{if $d.Answer}}{{if $d.Answer.EvidenceGaps}}<p class="note">{{$d.Answer.EvidenceGaps}}</p>{{end}}{{end}}
+    {{if $t.Response}}<div class="note ok"><b>Your statement</b><p>{{nl2br $t.Response}}</p></div>{{end}}
+    {{if $t.Comment}}<p class="muted">Comment: {{$t.Comment}}</p>{{end}}
+    {{if and (.CanAction "task.respond") (or (eq $t.Status "open") (eq $t.Status "in_progress"))}}
+    <form method="post" action="/tasks/{{$t.ID}}/respond" class="stack" data-busy="Recording statement, re-drafting and verifying…">
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <label>Your answer (becomes a citable SME statement)<textarea name="response" rows="6" required placeholder="State the position plainly: what we do, what we do not do, and what the buyer should be told."></textarea></label>
+      <div class="actions">
+        <button class="btn" type="submit" name="action" value="answer">Submit statement</button>
+        <button class="btn ghost" type="submit" name="action" value="request_more_info">Ask the requester</button>
+        <button class="btn ghost" type="submit" name="action" value="comment">Add comment</button>
+        <button class="btn ghost danger" type="submit" name="action" value="reject">Decline</button>
+      </div>
+      <p class="muted small">After you submit, the answer is re-drafted citing your statement, re-verified sentence by sentence, and sent to the reviewer.</p>
+    </form>
+    {{end}}
+  </section>
+  <aside class="stack">
+    <section class="card">
+      <p class="eyebrow">Current draft</p>
+      {{if $d.Answer}}{{template "labelpill" $d.Answer.ConfidenceLabel}} {{template "pill" $d.Answer.Status}}<div class="draft small">{{marked $d.Text $d.Verification}}</div>{{else}}<p class="muted">No draft yet.</p>{{end}}
+    </section>
+    {{if .CanAction "answer.generate"}}
+    <section class="card">
+      <p class="eyebrow">Reassign</p>
+      <form method="post" action="/tasks/{{$t.ID}}/assign" class="stack">
+        <input type="hidden" name="_csrf" value="{{.CSRF}}">
+        <label>Assignee <select name="assignee_id">{{range .Data.Users}}<option value="{{.ID}}" {{selected .ID $t.AssigneeID}}>{{.Name}} · {{role .Role}}</option>{{end}}</select></label>
+        <label>Due <input type="date" name="due" value="{{date $t.DueAt}}"></label>
+        <button class="btn small ghost" type="submit">Reassign</button>
+      </form>
+    </section>
+    {{end}}
+  </aside>
+</div>
+{{end}}

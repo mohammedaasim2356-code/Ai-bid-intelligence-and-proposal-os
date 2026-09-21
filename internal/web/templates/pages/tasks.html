@@ -1,0 +1,27 @@
+{{define "content"}}
+<div class="page-head">
+  <div><p class="eyebrow">{{if .Bid}}Bid{{else}}SME workflow{{end}}</p><h1>Tasks</h1><p class="muted">Evidence questions routed to owners by category. Answering turns the response into citable evidence and re-drafts the answer.</p></div>
+  {{if not .Bid}}<nav class="chips" aria-label="Scope"><a href="/tasks" {{if eq .Data.Scope "mine"}}class="active"{{end}}>Mine</a><a href="/tasks?scope=all" {{if eq .Data.Scope "all"}}class="active"{{end}}>Everyone</a></nav>{{end}}
+</div>
+{{if .Data.Tasks}}
+<section class="card">
+<table class="table">
+  <thead><tr><th>Requirement</th><th>Question</th><th>Assignee</th><th>Due</th><th>Status</th><th></th></tr></thead>
+  <tbody>
+  {{range .Data.Tasks}}
+  <tr class="{{if .Overdue}}overdue{{end}}">
+    <td><a href="/bids/{{.Bid.ID}}/requirements?req={{.Requirement.ID}}"><b class="mono">{{.Requirement.Code}}</b></a><br><span class="muted">{{trunc .Bid.Name 40}}</span></td>
+    <td class="wrap">{{trunc .Question 160}}</td>
+    <td>{{if .Assignee.Name}}<span class="avatar small">{{initials .Assignee.Name}}</span> {{.Assignee.Name}}{{else}}<span class="muted">unassigned</span>{{end}}</td>
+    <td>{{if .DueAt}}{{date .DueAt}}{{if .Overdue}} <span class="pill danger">overdue</span>{{end}}{{else}}—{{end}}</td>
+    <td>{{template "pill" .Status}}</td>
+    <td><a class="btn small {{if eq .Status "open"}}{{else}}ghost{{end}}" href="/tasks/{{.ID}}">{{if or (eq .Status "open") (eq .Status "in_progress")}}Respond{{else}}View{{end}}</a></td>
+  </tr>
+  {{end}}
+  </tbody>
+</table>
+</section>
+{{else}}
+{{template "empty" (dict "Title" "No tasks" "Why" "SME tasks appear when an answer lacks evidence or a writer assigns a requirement to an expert.")}}
+{{end}}
+{{end}}

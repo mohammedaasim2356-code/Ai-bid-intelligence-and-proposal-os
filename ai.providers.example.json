@@ -1,0 +1,43 @@
+{
+  "order": ["local", "free", "paid"],
+  "providers": {
+    "local": {
+      "type": "openai_compatible",
+      "baseUrl": "http://localhost:11434/v1",
+      "model": "llama3.1",
+      "mode": "local",
+      "rpm": 30,
+      "allowInternal": true,
+      "allowConfidential": true,
+      "timeoutSeconds": 60,
+      "notes": "Ollama / LM Studio / vLLM. Confidential data may stay on this machine."
+    },
+    "free": {
+      "type": "openai_compatible",
+      "baseUrl": "https://api.groq.com/openai/v1",
+      "apiKeyEnv": "GROQ_API_KEY",
+      "model": "llama-3.1-8b-instant",
+      "mode": "free_tier",
+      "rpm": 20,
+      "tokensPerDay": 200000,
+      "allowInternal": false,
+      "allowConfidential": false,
+      "jsonMode": true,
+      "notes": "Synthetic/public data only. Budgets are enforced by the router's token bucket."
+    },
+    "paid": {
+      "type": "openai_compatible",
+      "baseUrl": "https://api.openai.com/v1",
+      "apiKeyEnv": "OPENAI_API_KEY",
+      "model": "gpt-4o-mini",
+      "mode": "paid",
+      "rpm": 60,
+      "allowInternal": true,
+      "allowConfidential": false,
+      "jsonMode": true
+    }
+  },
+  "taskOverrides": {
+    "verify": ["local", "demo"]
+  }
+}

@@ -1,0 +1,90 @@
+{{define "content"}}
+<header class="land-nav">
+  <a class="brand" href="/"><span class="logo">B</span><span>BidOS</span></a>
+  <nav><a href="#workflow">Workflow</a><a href="#evidence">Evidence</a><a href="#qa">QA</a><a href="#roi">ROI</a><a href="#architecture">Architecture</a><a href="#security">Security</a><a class="btn small ghost" href="/login">Sign in</a></nav>
+</header>
+<section class="hero">
+  <p class="eyebrow">AI bid intelligence & proposal OS</p>
+  <h1>RFPs in. Decision-ready proposals out.</h1>
+  <p class="lead">AI-assisted bid operations that connect requirements, evidence, drafting, review, QA and export in one workflow — and refuse to claim what it cannot cite.</p>
+  <div class="actions center">
+    <form method="post" action="/demo/launch" class="inline"><input type="hidden" name="run" value="1">{{if .Data.Sandbox}}<input type="hidden" name="sandbox" value="1">{{end}}<button class="btn big" type="submit">Launch Synthetic Demo</button></form>
+    <a class="btn big ghost" href="#architecture">View Architecture</a>
+  </div>
+  <p class="muted small">Synthetic company <b>{{.Data.Company.Name}}</b> answering the synthetic <b>{{.Data.RFP.Title}}</b>: {{.Data.ReqCount}} requirements, {{.Data.Traps}} deliberate traps with no evidence, one hidden prompt-injection line. No real customer data.</p>
+</section>
+
+<section class="land-grid" id="problem">
+  <div class="card"><p class="eyebrow">Problem</p><h2>Proposal teams lose weeks to re-finding what they already know</h2><p>Requirements get missed, answers are copied from stale decks, reviewers cannot tell what is verified, and the same questionnaire is answered from scratch every quarter.</p></div>
+  <div class="card"><p class="eyebrow">Stance</p><h2>Honest by construction</h2><p>Every factual sentence must cite approved evidence. Where nothing supports a claim the system says <b>Needs evidence</b>, generates the question for the right expert, and routes it — it never invents a certification.</p></div>
+</section>
+
+<section class="land-section" id="workflow">
+  <p class="eyebrow">Workflow</p><h2>One pipeline, four human gates</h2>
+  <ol class="land-steps">
+    <li><b>Intake & parse</b><span>PDF, DOCX, XLSX, CSV, Markdown with cell-accurate locators.</span></li>
+    <li><b>Extract</b><span>Span-anchored requirements; injected instructions are ignored, not obeyed.</span></li>
+    <li><b>Gate 1 · Confirm</b><span>Humans confirm the matrix.</span></li>
+    <li><b>Qualify</b><span>Radar scorecard as evidence for the bid / no-bid call (Gate 2).</span></li>
+    <li><b>Draft & verify</b><span>Hybrid retrieval → evidence gate → grounded draft → sentence-level claim verifier → label.</span></li>
+    <li><b>SME loop</b><span>Gaps become routed tasks; statements become citable evidence; answers re-draft automatically.</span></li>
+    <li><b>Gate 3 · Review</b><span>Reviewers approve; approved answers enter the library.</span></li>
+    <li><b>Assemble, QA, Gate 4, Export</b><span>16+ deterministic checks block export while blockers exist; DOCX, PDF, MD, JSON, CSV and questionnaire round-trip.</span></li>
+  </ol>
+</section>
+
+<section class="land-section" id="screens">
+  <p class="eyebrow">Product screens</p><h2>Built for review, not chat</h2>
+  <div class="land-grid three">
+    <div class="card"><h3>Requirement workspace</h3><p>Split view: matrix on the left, source span, evidence rail, verified draft and review controls on the right.</p></div>
+    <div class="card"><h3>Bid command center</h3><p>Stage tracker, gate actions, run log, qualification radar and the primary next action.</p></div>
+    <div class="card"><h3>Launch checklist QA</h3><p>Ready score, blockers, warnings and info with deep links to the exact issue.</p></div>
+  </div>
+</section>
+
+<section class="land-section" id="evidence">
+  <p class="eyebrow">Evidence-backed AI</p><h2>Labels come from facts, not confidence scores</h2>
+  <div class="land-grid">
+    <div class="card"><h3>Evidence gate</h3><p>A chunk qualifies only if it covers the requirement's salient terms and mentions its hard terms (numbers, acronyms, proper nouns). The union of qualified chunks must cover every hard term, or the answer stops at <b>Insufficient evidence</b>.</p></div>
+    <div class="card"><h3>Claim verifier</h3><p>Every factual sentence needs a citation marker; every number and hard term must appear in the cited chunk; lexical overlap must clear a threshold. Unsupported sentences are highlighted, counted and blocked by QA.</p></div>
+    <div class="card"><h3>Provider router</h3><p>Local model → configured provider → deterministic demo floor. Sensitivity gate, cache, token budgets, schema validation with one repair, logged fallbacks. The demo needs no keys.</p></div>
+    <div class="card"><h3>Prompt-injection resistance</h3><p>Buyer documents are untrusted data. Instruction lines are filtered at extraction and the synthetic RFP contains one to prove it.</p></div>
+  </div>
+</section>
+
+<section class="land-section" id="qa">
+  <p class="eyebrow">QA</p><h2>Export is a gate, not a button</h2>
+  <p class="lead">Missing mandatory answers, weak or absent evidence, missing citations, placeholders, stale or expired sources, contradictions, unsupported sentences, unresolved SME tasks, missing attachments and sections — each finding links to its entity and blocks export until resolved or dismissed with a reason.</p>
+</section>
+
+<section class="land-section" id="roi">
+  <p class="eyebrow">ROI model</p><h2>Estimated operational savings, formula visible and editable</h2>
+  <p class="lead">hours = drafted × baseline hours × draft saving + reused × baseline hours × reuse saving + bids × admin hours × 50%. Every input is a setting on the Analytics page; every output is labelled an estimate.</p>
+</section>
+
+<section class="land-section" id="architecture">
+  <p class="eyebrow">Architecture</p><h2>One Go binary, no external services required</h2>
+  <div class="arch">
+    <div class="arch-row"><span>Web UI (net/http, html/template, inline SVG)</span></div>
+    <div class="arch-row"><span>app services</span><span>pipeline engine</span><span>DB job runner</span><span>eval harness</span></div>
+    <div class="arch-row"><span>docs parsers</span><span>extraction</span><span>hybrid retrieval (BM25 + embeddings + RRF)</span><span>AI router + verifier</span><span>vertical packs</span></div>
+    <div class="arch-row"><span>SQLite (pure Go) · local file store · optional OpenAI-compatible endpoints · optional Slack / ClickUp / inbox adapters</span></div>
+  </div>
+</section>
+
+<section class="land-section" id="security">
+  <p class="eyebrow">Security principles</p>
+  <div class="land-grid three">
+    <div class="card"><h3>Server-side authorization</h3><p>Sessions, RBAC per action, organization scoping on every query, CSRF tokens, rate limits, upload validation.</p></div>
+    <div class="card"><h3>Keys never reach the browser</h3><p>Provider credentials live in the environment; every result is labelled with its provider mode.</p></div>
+    <div class="card"><h3>Sensitivity gate</h3><p>Internal or confidential data only goes to providers explicitly allowed for it; otherwise the local model or demo floor answers.</p></div>
+  </div>
+</section>
+
+<section class="hero small">
+  <h2>See it run on synthetic data</h2>
+  <div class="actions center"><form method="post" action="/demo/launch" class="inline"><input type="hidden" name="run" value="1">{{if .Data.Sandbox}}<input type="hidden" name="sandbox" value="1">{{end}}<button class="btn big" type="submit">Launch Synthetic Demo</button></form><a class="btn big ghost" href="/login">Sign in as a role</a></div>
+  <p class="muted small">3-minute script: start the pipeline → extraction with source spans → a strong answer → a trap question → answer as the SME → upload the addendum → run QA → export the round-trip questionnaire → Quality page.</p>
+</section>
+<footer class="foot mono">BidOS {{.Version}} · synthetic demo · <a href="/health">health</a></footer>
+{{end}}

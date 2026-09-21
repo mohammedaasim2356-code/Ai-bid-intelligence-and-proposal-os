@@ -1,0 +1,562 @@
+[
+  {
+    "Code": "1.1",
+    "Text": "Firms must acknowledge receipt of this invitation by email to panel@meridian-infra.example within three business days.",
+    "Category": "submission_instructions",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "1.1 Firms must acknowledge receipt of this invitation by email to panel@meridian-infra.example within three business days."
+  },
+  {
+    "Code": "2.1",
+    "Text": "Responses must be submitted electronically via the group procurement portal no later than 12 February 2027, 12:00 UTC.",
+    "Category": "submission_instructions",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "2.1 Responses must be submitted electronically via the group procurement portal no later than 12 February 2027, 12:00 UTC."
+  },
+  {
+    "Code": "2.2",
+    "Text": "The response shall not exceed 40 pages, excluding CVs and the pricing schedule.",
+    "Category": "submission_instructions",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "2.2 The response shall not exceed 40 pages, excluding CVs and the pricing schedule."
+  },
+  {
+    "Code": "2.3",
+    "Text": "Firms must complete the Pricing Schedule (Attachment B) in the format provided.",
+    "Category": "submission_instructions",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "2.3 Firms must complete the Pricing Schedule (Attachment B) in the format provided."
+  },
+  {
+    "Code": "2.4",
+    "Text": "Firms must attach a copy of their professional indemnity insurance certificate (Attachment C).",
+    "Category": "submission_instructions",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "2.4 Firms must attach a copy of their professional indemnity insurance certificate (Attachment C)."
+  },
+  {
+    "Code": "2.5",
+    "Text": "Clarification questions must be submitted in writing by 12 January 2027; answers will be shared with all firms.",
+    "Category": "submission_instructions",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "2.5 Clarification questions must be submitted in writing by 12 January 2027; answers will be shared with all firms."
+  },
+  {
+    "Code": "2.6",
+    "Text": "Tenders must remain valid for 90 days from the submission deadline.",
+    "Category": "submission_instructions",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "2.6 Tenders must remain valid for 90 days from the submission deadline."
+  },
+  {
+    "Code": "3.1",
+    "Text": "Provide an overview of the firm, including the year of establishment, number of partners and total fee earners.",
+    "Category": "firm_overview",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "3.1 Provide an overview of the firm, including the year of establishment, number of partners and total fee earners."
+  },
+  {
+    "Code": "3.2",
+    "Text": "List the offices from which panel work would be delivered.",
+    "Category": "firm_overview",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "3.2 List the offices from which panel work would be delivered."
+  },
+  {
+    "Code": "3.3",
+    "Text": "Describe the firm's financial standing, including turnover for the last financial year and the availability of audited accounts.",
+    "Category": "firm_overview",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "3.3 Describe the firm's financial standing, including turnover for the last financial year and the availability of audited accounts."
+  },
+  {
+    "Code": "3.4",
+    "Text": "State the regulatory body that regulates the firm and any quality accreditations held (for example Lexcel).",
+    "Category": "firm_overview",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "3.4 State the regulatory body that regulates the firm and any quality accreditations held (for example Lexcel)."
+  },
+  {
+    "Code": "3.5",
+    "Text": "Confirm whether the firm has an office in Singapore or Dubai.",
+    "Category": "firm_overview",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "3.5 Confirm whether the firm has an office in Singapore or Dubai."
+  },
+  {
+    "Code": "3.6",
+    "Text": "Describe the firm's ownership structure.",
+    "Category": "firm_overview",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "3.6 Describe the firm's ownership structure."
+  },
+  {
+    "Code": "4.1",
+    "Text": "Describe your corporate and mergers and acquisitions capability, including the number and aggregate value of transactions completed in the last three years.",
+    "Category": "practice_expertise",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "4.1 Describe your corporate and mergers and acquisitions capability, including the number and aggregate value of transactions completed in the last three years."
+  },
+  {
+    "Code": "4.2",
+    "Text": "Describe your experience of infrastructure and construction projects under NEC4 and JCT contract forms.",
+    "Category": "practice_expertise",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "4.2 Describe your experience of infrastructure and construction projects under NEC4 and JCT contract forms."
+  },
+  {
+    "Code": "4.3",
+    "Text": "Describe your public procurement expertise, including advice under the Procurement Act 2023.",
+    "Category": "practice_expertise",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "4.3 Describe your public procurement expertise, including advice under the Procurement Act 2023."
+  },
+  {
+    "Code": "4.4",
+    "Text": "Describe your construction disputes capability, including adjudication and Technology and Construction Court proceedings, with the number of adjudications handled in the last 24 months.",
+    "Category": "practice_expertise",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "4.4 Describe your construction disputes capability, including adjudication and Technology and Construction Court proceedings, with the number of adjudications handled in the last 24 months."
+  },
+  {
+    "Code": "4.5",
+    "Text": "Describe your international arbitration experience, including ICC and LCIA arbitrations.",
+    "Category": "practice_expertise",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "4.5 Describe your international arbitration experience, including ICC and LCIA arbitrations."
+  },
+  {
+    "Code": "4.6",
+    "Text": "Confirm whether the firm holds a Band 1 ranking in Chambers UK for Tax.",
+    "Category": "practice_expertise",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "4.6 Confirm whether the firm holds a Band 1 ranking in Chambers UK for Tax."
+  },
+  {
+    "Code": "4.7",
+    "Text": "Confirm whether the firm advises on Scots law matters from its Edinburgh office.",
+    "Category": "practice_expertise",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "4.7 Confirm whether the firm advises on Scots law matters from its Edinburgh office."
+  },
+  {
+    "Code": "4.8",
+    "Text": "The firm must be able to advise on planning and environmental consents for linear infrastructure.",
+    "Category": "practice_expertise",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "4.8 The firm must be able to advise on planning and environmental consents for linear infrastructure."
+  },
+  {
+    "Code": "5.1",
+    "Text": "Identify the proposed relationship partner and summarise their relevant experience.",
+    "Category": "team_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "5.1 Identify the proposed relationship partner and summarise their relevant experience."
+  },
+  {
+    "Code": "5.2",
+    "Text": "Identify the lead partners for construction and for disputes work, with their years of post-qualification experience.",
+    "Category": "team_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "5.2 Identify the lead partners for construction and for disputes work, with their years of post-qualification experience."
+  },
+  {
+    "Code": "5.3",
+    "Text": "Describe the partner-to-associate leverage you propose for panel matters.",
+    "Category": "team_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "5.3 Describe the partner-to-associate leverage you propose for panel matters."
+  },
+  {
+    "Code": "5.4",
+    "Text": "Describe how you will ensure continuity of the named team and the notice you will give of any changes.",
+    "Category": "team_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "5.4 Describe how you will ensure continuity of the named team and the notice you will give of any changes."
+  },
+  {
+    "Code": "5.5",
+    "Text": "Describe your approach to supervision of junior lawyers working on panel matters.",
+    "Category": "team_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "5.5 Describe your approach to supervision of junior lawyers working on panel matters."
+  },
+  {
+    "Code": "5.6",
+    "Text": "Confirm whether a Welsh-speaking partner is available for matters in Wales.",
+    "Category": "team_experience",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "5.6 Confirm whether a Welsh-speaking partner is available for matters in Wales."
+  },
+  {
+    "Code": "6.1",
+    "Text": "Provide two examples of comparable-scale infrastructure matters completed in the last three years.",
+    "Category": "matter_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "6.1 Provide two examples of comparable-scale infrastructure matters completed in the last three years."
+  },
+  {
+    "Code": "6.2",
+    "Text": "Describe a construction dispute you have resolved through adjudication, including the outcome.",
+    "Category": "matter_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "6.2 Describe a construction dispute you have resolved through adjudication, including the outcome."
+  },
+  {
+    "Code": "6.3",
+    "Text": "Describe your experience of rail depot or rolling stock programmes.",
+    "Category": "matter_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "6.3 Describe your experience of rail depot or rolling stock programmes."
+  },
+  {
+    "Code": "6.4",
+    "Text": "Provide referee contact details for two clients whom the group can contact.",
+    "Category": "matter_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "6.4 Provide referee contact details for two clients whom the group can contact."
+  },
+  {
+    "Code": "6.5",
+    "Text": "Describe your track record advising energy utilities.",
+    "Category": "matter_experience",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "6.5 Describe your track record advising energy utilities."
+  },
+  {
+    "Code": "6.6",
+    "Text": "Confirm whether the firm has acted on a PFI hospital project in the last three years.",
+    "Category": "matter_experience",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "6.6 Confirm whether the firm has acted on a PFI hospital project in the last three years."
+  },
+  {
+    "Code": "7.1",
+    "Text": "State your standard response times for acknowledging and substantively responding to instructions.",
+    "Category": "service_delivery",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "7.1 State your standard response times for acknowledging and substantively responding to instructions."
+  },
+  {
+    "Code": "7.2",
+    "Text": "Describe your reporting arrangements, including the frequency of matter reports and panel review meetings.",
+    "Category": "service_delivery",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "7.2 Describe your reporting arrangements, including the frequency of matter reports and panel review meetings."
+  },
+  {
+    "Code": "7.3",
+    "Text": "Describe the key performance indicators you propose for the panel and how they will be measured.",
+    "Category": "service_delivery",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "7.3 Describe the key performance indicators you propose for the panel and how they will be measured."
+  },
+  {
+    "Code": "7.4",
+    "Text": "Describe any secondment arrangements offered to panel clients.",
+    "Category": "service_delivery",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "7.4 Describe any secondment arrangements offered to panel clients."
+  },
+  {
+    "Code": "7.5",
+    "Text": "Describe the training and know-how you will provide at no additional charge.",
+    "Category": "service_delivery",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "7.5 Describe the training and know-how you will provide at no additional charge."
+  },
+  {
+    "Code": "7.6",
+    "Text": "Describe your complaints handling procedure.",
+    "Category": "service_delivery",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "7.6 Describe your complaints handling procedure."
+  },
+  {
+    "Code": "7.7",
+    "Text": "Confirm whether you provide a dedicated 24x7 helpdesk staffed by qualified solicitors.",
+    "Category": "service_delivery",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "7.7 Confirm whether you provide a dedicated 24x7 helpdesk staffed by qualified solicitors."
+  },
+  {
+    "Code": "8.1",
+    "Text": "Provide your proposed hourly rates by grade of fee earner.",
+    "Category": "fees_pricing",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "8.1 Provide your proposed hourly rates by grade of fee earner."
+  },
+  {
+    "Code": "8.2",
+    "Text": "State the discount offered against standard rates for panel work.",
+    "Category": "fees_pricing",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "8.2 State the discount offered against standard rates for panel work."
+  },
+  {
+    "Code": "8.3",
+    "Text": "Describe the alternative fee arrangements you offer, including fixed and capped fees.",
+    "Category": "fees_pricing",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "8.3 Describe the alternative fee arrangements you offer, including fixed and capped fees."
+  },
+  {
+    "Code": "8.4",
+    "Text": "Describe your billing arrangements, including e-billing capability and invoice format.",
+    "Category": "fees_pricing",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "8.4 Describe your billing arrangements, including e-billing capability and invoice format."
+  },
+  {
+    "Code": "8.5",
+    "Text": "Describe how you provide and manage matter budgets and estimates, including notification before an estimate is exceeded.",
+    "Category": "fees_pricing",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "8.5 Describe how you provide and manage matter budgets and estimates, including notification before an estimate is exceeded."
+  },
+  {
+    "Code": "8.6",
+    "Text": "Confirm whether the firm accepts payment of fees in Bitcoin or other cryptocurrency.",
+    "Category": "fees_pricing",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "8.6 Confirm whether the firm accepts payment of fees in Bitcoin or other cryptocurrency."
+  },
+  {
+    "Code": "8.7",
+    "Text": "State your policy on disbursements and any mark-up applied.",
+    "Category": "fees_pricing",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "8.7 State your policy on disbursements and any mark-up applied."
+  },
+  {
+    "Code": "9.1",
+    "Text": "State the level of professional indemnity insurance cover held and the insurer's rating.",
+    "Category": "risk_compliance",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "9.1 State the level of professional indemnity insurance cover held and the insurer's rating."
+  },
+  {
+    "Code": "9.2",
+    "Text": "Describe your information security controls and any certifications such as ISO 27001.",
+    "Category": "risk_compliance",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "9.2 Describe your information security controls and any certifications such as ISO 27001."
+  },
+  {
+    "Code": "9.3",
+    "Text": "Describe your compliance with UK GDPR and where client data is hosted.",
+    "Category": "risk_compliance",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "9.3 Describe your compliance with UK GDPR and where client data is hosted."
+  },
+  {
+    "Code": "9.4",
+    "Text": "Describe your business continuity arrangements and recovery time objectives.",
+    "Category": "risk_compliance",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "9.4 Describe your business continuity arrangements and recovery time objectives."
+  },
+  {
+    "Code": "9.5",
+    "Text": "Describe your anti-money laundering and sanctions screening procedures.",
+    "Category": "risk_compliance",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "9.5 Describe your anti-money laundering and sanctions screening procedures."
+  },
+  {
+    "Code": "9.6",
+    "Text": "The firm must disclose any professional negligence claims or regulatory findings against it in the last five years.",
+    "Category": "risk_compliance",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "9.6 The firm must disclose any professional negligence claims or regulatory findings against it in the last five years."
+  },
+  {
+    "Code": "9.7",
+    "Text": "Confirm whether the firm holds Cyber Essentials Plus certification.",
+    "Category": "risk_compliance",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "9.7 Confirm whether the firm holds Cyber Essentials Plus certification."
+  },
+  {
+    "Code": "9.8",
+    "Text": "Confirm whether the firm holds ISO 14001 environmental certification.",
+    "Category": "risk_compliance",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "9.8 Confirm whether the firm holds ISO 14001 environmental certification."
+  },
+  {
+    "Code": "10.1",
+    "Text": "Describe your matter management and client extranet capabilities.",
+    "Category": "technology_innovation",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "10.1 Describe your matter management and client extranet capabilities."
+  },
+  {
+    "Code": "10.2",
+    "Text": "Describe your use of document automation for standard documents.",
+    "Category": "technology_innovation",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "10.2 Describe your use of document automation for standard documents."
+  },
+  {
+    "Code": "10.3",
+    "Text": "Describe your policy on the use of generative AI tools and how client confidentiality is protected.",
+    "Category": "technology_innovation",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "10.3 Describe your policy on the use of generative AI tools and how client confidentiality is protected."
+  },
+  {
+    "Code": "10.4",
+    "Text": "Describe your legal project management capability.",
+    "Category": "technology_innovation",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "10.4 Describe your legal project management capability."
+  },
+  {
+    "Code": "10.5",
+    "Text": "Confirm whether the firm is a licensed Alternative Business Structure (ABS).",
+    "Category": "firm_overview",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "10.5 Confirm whether the firm is a licensed Alternative Business Structure (ABS)."
+  },
+  {
+    "Code": "11.1",
+    "Text": "Provide the firm's diversity data, including the percentage of female partners.",
+    "Category": "diversity_esg",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "11.1 Provide the firm's diversity data, including the percentage of female partners."
+  },
+  {
+    "Code": "11.2",
+    "Text": "Describe the firm's environmental commitments, including any net zero target.",
+    "Category": "diversity_esg",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "11.2 Describe the firm's environmental commitments, including any net zero target."
+  },
+  {
+    "Code": "11.3",
+    "Text": "State the number of pro bono hours delivered in the last year.",
+    "Category": "diversity_esg",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "11.3 State the number of pro bono hours delivered in the last year."
+  },
+  {
+    "Code": "11.4",
+    "Text": "Describe your wellbeing initiatives for staff.",
+    "Category": "diversity_esg",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "11.4 Describe your wellbeing initiatives for staff."
+  },
+  {
+    "Code": "11.5",
+    "Text": "Confirm whether the firm holds the Living Wage Foundation accreditation.",
+    "Category": "diversity_esg",
+    "Mandatory": false,
+    "Trap": true,
+    "SourceSpan": "11.5 Confirm whether the firm holds the Living Wage Foundation accreditation."
+  },
+  {
+    "Code": "12.1",
+    "Text": "Describe your conflict-check process, including turnaround time and the use of information barriers.",
+    "Category": "conflicts_confidentiality",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "12.1 Describe your conflict-check process, including turnaround time and the use of information barriers."
+  },
+  {
+    "Code": "12.2",
+    "Text": "The firm must accept a liability cap of not less than 50 million pounds per claim.",
+    "Category": "commercial_terms",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "12.2 The firm must accept a liability cap of not less than 50 million pounds per claim."
+  },
+  {
+    "Code": "12.3",
+    "Text": "State the notice period you require for termination of the framework.",
+    "Category": "commercial_terms",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "12.3 State the notice period you require for termination of the framework."
+  },
+  {
+    "Code": "12.4",
+    "Text": "State your standard payment terms.",
+    "Category": "commercial_terms",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "12.4 State your standard payment terms."
+  },
+  {
+    "Code": "12.5",
+    "Text": "Describe your position on client audit rights and on subcontracting of panel work.",
+    "Category": "commercial_terms",
+    "Mandatory": true,
+    "Trap": false,
+    "SourceSpan": "12.5 Describe your position on client audit rights and on subcontracting of panel work."
+  }
+]

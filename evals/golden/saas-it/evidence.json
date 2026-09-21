@@ -1,0 +1,212 @@
+{
+  "1.1": [],
+  "10.1": [
+    "commercial-terms:1"
+  ],
+  "10.2": [
+    "commercial-terms:2"
+  ],
+  "10.3": [
+    "commercial-terms:3"
+  ],
+  "10.4": [
+    "commercial-terms:4"
+  ],
+  "10.5": [
+    "commercial-terms:5"
+  ],
+  "10.6": [],
+  "10.7": [
+    "commercial-terms:6"
+  ],
+  "10.8": [],
+  "11.1": [
+    "case-study-helios:1",
+    "case-study-aster:1"
+  ],
+  "11.2": [
+    "customer-references:1"
+  ],
+  "11.3": [
+    "team-bios:1",
+    "team-bios:2",
+    "team-bios:3"
+  ],
+  "11.4": [
+    "team-bios:1",
+    "team-bios:3"
+  ],
+  "11.5": [
+    "company-overview:5"
+  ],
+  "11.6": [],
+  "11.7": [
+    "team-bios:6"
+  ],
+  "12.1": [],
+  "2.1": [],
+  "2.2": [],
+  "2.3": [],
+  "2.4": [],
+  "2.5": [],
+  "2.6": [],
+  "2.7": [],
+  "3.1": [
+    "company-overview:1"
+  ],
+  "3.2": [
+    "company-overview:3"
+  ],
+  "3.3": [
+    "company-overview:5"
+  ],
+  "3.4": [
+    "company-overview:6"
+  ],
+  "3.5": [],
+  "3.6": [
+    "company-overview:7"
+  ],
+  "4.1": [
+    "product-guide:1"
+  ],
+  "4.10": [
+    "standard-qa:1"
+  ],
+  "4.11": [
+    "security-handbook:4.5"
+  ],
+  "4.12": [
+    "product-guide:1"
+  ],
+  "4.2": [
+    "product-guide:2.4"
+  ],
+  "4.3": [
+    "product-guide:3"
+  ],
+  "4.4": [
+    "product-guide:4"
+  ],
+  "4.5": [
+    "product-guide:5"
+  ],
+  "4.6": [
+    "product-guide:6"
+  ],
+  "4.7": [
+    "security-handbook:4.1"
+  ],
+  "4.8": [
+    "product-guide:3"
+  ],
+  "4.9": [
+    "product-guide:2.2"
+  ],
+  "5.1": [
+    "product-guide:7"
+  ],
+  "5.2": [
+    "product-guide:8"
+  ],
+  "5.3": [
+    "support-sla:3"
+  ],
+  "5.4": [
+    "security-handbook:4.6"
+  ],
+  "5.5": [],
+  "5.6": [
+    "product-guide:8"
+  ],
+  "5.7": [],
+  "5.8": [
+    "support-sla:4"
+  ],
+  "6.1": [
+    "security-handbook:4.1"
+  ],
+  "6.10": [
+    "security-handbook:4.7"
+  ],
+  "6.11": [],
+  "6.12": [
+    "security-handbook:4.5"
+  ],
+  "6.2": [
+    "security-handbook:4.2"
+  ],
+  "6.3": [
+    "security-handbook:4.2"
+  ],
+  "6.4": [
+    "security-handbook:4.3"
+  ],
+  "6.5": [],
+  "6.6": [],
+  "6.7": [
+    "security-handbook:4.4"
+  ],
+  "6.8": [
+    "certifications:1"
+  ],
+  "6.9": [],
+  "7.1": [
+    "privacy-policy:1"
+  ],
+  "7.2": [
+    "privacy-policy:3"
+  ],
+  "7.3": [
+    "privacy-policy:4"
+  ],
+  "7.4": [],
+  "7.5": [
+    "privacy-policy:5"
+  ],
+  "7.6": [
+    "privacy-policy:2"
+  ],
+  "8.1": [
+    "implementation-methodology:1",
+    "implementation-methodology:2"
+  ],
+  "8.2": [
+    "implementation-methodology:3"
+  ],
+  "8.3": [
+    "implementation-methodology:4"
+  ],
+  "8.4": [
+    "implementation-methodology:5"
+  ],
+  "8.5": [
+    "implementation-methodology:6"
+  ],
+  "8.6": [
+    "implementation-methodology:7"
+  ],
+  "8.7": [
+    "implementation-methodology:3"
+  ],
+  "8.8": [],
+  "9.1": [
+    "support-sla:1"
+  ],
+  "9.2": [
+    "support-sla:2"
+  ],
+  "9.3": [
+    "support-sla:1"
+  ],
+  "9.4": [
+    "support-sla:5"
+  ],
+  "9.5": [
+    "support-sla:6"
+  ],
+  "9.6": [],
+  "9.7": [
+    "support-sla:4"
+  ]
+}

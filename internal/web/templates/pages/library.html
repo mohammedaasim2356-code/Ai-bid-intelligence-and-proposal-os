@@ -1,0 +1,32 @@
+{{define "content"}}
+{{$h := .Data.Hygiene}}{{$pack := .Data.Pack}}
+<div class="page-head">
+  <div><p class="eyebrow">Reuse</p><h1>Answer Library</h1><p class="muted">{{$h.Total}} approved answers with provenance. Reuse is checked for near-duplicates and re-verified against current evidence before it is used.</p></div>
+  <div class="actions"><form method="get" class="inline"><input type="search" name="q" value="{{.Data.Q}}" placeholder="Search library" aria-label="Search library"><button class="btn small ghost" type="submit">Search</button></form><a class="btn ghost" href="/knowledge">Knowledge</a></div>
+</div>
+{{if or $h.Expired $h.Duplicates}}
+<section class="card hygiene">
+  <header class="card-head"><h2>Hygiene</h2></header>
+  {{if $h.Expired}}<p><span class="pill warn">{{len $h.Expired}} past review-by</span> {{range $h.Expired}}<a class="mono" href="/library/{{.ID}}">{{trunc .CanonicalQuestion 40}}</a> · {{end}}</p>{{end}}
+  {{if $h.Duplicates}}<p><span class="pill info">{{len $h.Duplicates}} near-duplicate pairs</span> {{range $h.Duplicates}}<a class="mono" href="/library/{{(index . 0).ID}}">{{trunc (index . 0).CanonicalQuestion 30}}</a> ≈ <a class="mono" href="/library/{{(index . 1).ID}}">{{trunc (index . 1).CanonicalQuestion 30}}</a> · {{end}}</p>{{end}}
+</section>
+{{end}}
+<section class="card">
+{{if .Data.Entries}}
+<table class="table">
+  <thead><tr><th>Question</th><th>Category</th><th>Approved</th><th>Review by</th><th>Reused</th></tr></thead>
+  <tbody>
+  {{range .Data.Entries}}
+  <tr>
+    <td><a href="/library/{{.ID}}"><b>{{trunc .CanonicalQuestion 90}}</b></a><br><span class="muted small">{{trunc .AnswerText 120}}</span></td>
+    <td>{{$pack.CategoryLabel .Category}}</td>
+    <td>{{with index $.Data.UserMap .ApprovedByID}}{{.Name}}{{end}}<br><span class="muted mono">{{date .ApprovedAt}}</span></td>
+    <td><span class="{{if and .ReviewBy (lt .ReviewBy $.Data.Today)}}danger{{end}}">{{default "—" .ReviewBy}}</span></td>
+    <td><b>{{.ReuseCount}}</b>×</td>
+  </tr>
+  {{end}}
+  </tbody>
+</table>
+{{else}}{{template "empty" (dict "Title" "The library is empty" "Why" "Approved answers are promoted here with their citations, so the next questionnaire starts from verified material.")}}{{end}}
+</section>
+{{end}}

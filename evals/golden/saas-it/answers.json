@@ -1,0 +1,437 @@
+{
+  "1.1": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "10.1": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "10.2": {
+    "mustContain": [
+      "net 30"
+    ],
+    "mustNotClaim": []
+  },
+  "10.3": {
+    "mustContain": [
+      "90 days"
+    ],
+    "mustNotClaim": []
+  },
+  "10.4": {
+    "mustContain": [
+      "12 months"
+    ],
+    "mustNotClaim": []
+  },
+  "10.5": {
+    "mustContain": [
+      "10 million"
+    ],
+    "mustNotClaim": []
+  },
+  "10.6": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "escrow agent"
+    ]
+  },
+  "10.7": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "10.8": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "accepts Attachment F"
+    ]
+  },
+  "11.1": {
+    "mustContain": [
+      "Helios"
+    ],
+    "mustNotClaim": []
+  },
+  "11.2": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "11.3": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "11.4": {
+    "mustContain": [
+      "PMP",
+      "CISSP"
+    ],
+    "mustNotClaim": []
+  },
+  "11.5": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "11.6": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "ISO 14001"
+    ]
+  },
+  "11.7": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "12.1": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.1": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.2": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.3": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.4": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.5": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.6": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "2.7": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "3.1": {
+    "mustContain": [
+      "2011",
+      "Denver"
+    ],
+    "mustNotClaim": []
+  },
+  "3.2": {
+    "mustContain": [
+      "audited"
+    ],
+    "mustNotClaim": []
+  },
+  "3.3": {
+    "mustContain": [
+      "140"
+    ],
+    "mustNotClaim": []
+  },
+  "3.4": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "3.5": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "MBE",
+      "WBE"
+    ]
+  },
+  "3.6": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "4.1": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "4.10": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "4.11": {
+    "mustContain": [
+      "365"
+    ],
+    "mustNotClaim": []
+  },
+  "4.12": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "4.2": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "4.3": {
+    "mustContain": [
+      "OAuth 2.0"
+    ],
+    "mustNotClaim": []
+  },
+  "4.4": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "4.5": {
+    "mustContain": [
+      "WCAG 2.1 AA"
+    ],
+    "mustNotClaim": []
+  },
+  "4.6": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "4.7": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "4.8": {
+    "mustContain": [
+      "ServiceNow"
+    ],
+    "mustNotClaim": []
+  },
+  "4.9": {
+    "mustContain": [
+      "Parquet"
+    ],
+    "mustNotClaim": []
+  },
+  "5.1": {
+    "mustContain": [
+      "Frankfurt"
+    ],
+    "mustNotClaim": []
+  },
+  "5.2": {
+    "mustContain": [
+      "5,000"
+    ],
+    "mustNotClaim": []
+  },
+  "5.3": {
+    "mustContain": [
+      "99.9%"
+    ],
+    "mustNotClaim": []
+  },
+  "5.4": {
+    "mustContain": [
+      "15 minutes",
+      "4 hours"
+    ],
+    "mustNotClaim": []
+  },
+  "5.5": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "EAL4"
+    ]
+  },
+  "5.6": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "5.7": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "Brazil",
+      "São Paulo"
+    ]
+  },
+  "5.8": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "6.1": {
+    "mustContain": [
+      "SAML 2.0"
+    ],
+    "mustNotClaim": []
+  },
+  "6.10": {
+    "mustContain": [
+      "SAST"
+    ],
+    "mustNotClaim": []
+  },
+  "6.11": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "quantum-safe"
+    ]
+  },
+  "6.12": {
+    "mustContain": [
+      "SIEM"
+    ],
+    "mustNotClaim": []
+  },
+  "6.2": {
+    "mustContain": [
+      "AES-256",
+      "TLS 1.2"
+    ],
+    "mustNotClaim": []
+  },
+  "6.3": {
+    "mustContain": [
+      "90 days"
+    ],
+    "mustNotClaim": []
+  },
+  "6.4": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "6.5": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "ISO 27001 certified",
+      "certificate scope"
+    ]
+  },
+  "6.6": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "FedRAMP Moderate authorized"
+    ]
+  },
+  "6.7": {
+    "mustContain": [
+      "24 hours"
+    ],
+    "mustNotClaim": []
+  },
+  "6.8": {
+    "mustContain": [
+      "SOC 2 Type II"
+    ],
+    "mustNotClaim": []
+  },
+  "6.9": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "PCI DSS Level 1 compliant"
+    ]
+  },
+  "7.1": {
+    "mustContain": [
+      "GDPR"
+    ],
+    "mustNotClaim": []
+  },
+  "7.2": {
+    "mustContain": [
+      "30 days"
+    ],
+    "mustNotClaim": []
+  },
+  "7.3": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "7.4": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "HIPAA",
+      "BAA"
+    ]
+  },
+  "7.5": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "7.6": {
+    "mustContain": [
+      "Ireland"
+    ],
+    "mustNotClaim": []
+  },
+  "8.1": {
+    "mustContain": [
+      "Discover"
+    ],
+    "mustNotClaim": []
+  },
+  "8.2": {
+    "mustContain": [
+      "10 business days"
+    ],
+    "mustNotClaim": []
+  },
+  "8.3": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "8.4": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "8.5": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "8.6": {
+    "mustContain": [
+      "30 days"
+    ],
+    "mustNotClaim": []
+  },
+  "8.7": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "8.8": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "Japanese",
+      "Korean"
+    ]
+  },
+  "9.1": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "9.2": {
+    "mustContain": [
+      "15 minutes"
+    ],
+    "mustNotClaim": []
+  },
+  "9.3": {
+    "mustContain": [
+      "24x7"
+    ],
+    "mustNotClaim": []
+  },
+  "9.4": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "9.5": {
+    "mustContain": [],
+    "mustNotClaim": []
+  },
+  "9.6": {
+    "mustContain": [],
+    "mustNotClaim": [
+      "99.999%"
+    ]
+  },
+  "9.7": {
+    "mustContain": [
+      "10 business days"
+    ],
+    "mustNotClaim": []
+  }
+}

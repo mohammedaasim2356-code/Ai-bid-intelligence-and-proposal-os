@@ -1,0 +1,15 @@
+[
+  {"key": "cover", "title": "Cover", "hint": "Bid name, buyer, submission date, contact."},
+  {"key": "executive_summary", "title": "Executive Summary", "hint": "Why us, in one page. Reference the buyer's stated outcomes."},
+  {"key": "company_overview", "title": "Company Overview", "hint": "Insert approved company overview answers."},
+  {"key": "understanding", "title": "Understanding of Requirements", "hint": "Restate the program scope and constraints."},
+  {"key": "solution", "title": "Proposed Solution", "hint": "Insert functional, architecture and integration answers."},
+  {"key": "implementation", "title": "Implementation Plan", "hint": "Methodology, timeline, governance, migration, training."},
+  {"key": "security", "title": "Security / Compliance", "hint": "Insert security and privacy answers."},
+  {"key": "team", "title": "Team", "hint": "Key personnel and continuity."},
+  {"key": "experience", "title": "Relevant Experience", "hint": "Sector experience and references."},
+  {"key": "case_studies", "title": "Case Studies", "hint": "Two comparable programs."},
+  {"key": "pricing", "title": "Pricing", "hint": "[PLACEHOLDER: pricing template Attachment B]"},
+  {"key": "assumptions", "title": "Assumptions", "hint": "Commercial and delivery assumptions."},
+  {"key": "appendices", "title": "Appendices", "hint": "Attachments, certificates, CVs."}
+]

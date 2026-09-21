@@ -1,0 +1,27 @@
+{{define "content"}}
+<div class="page-head">
+  <div><p class="eyebrow">Proof point</p><h1>Quality</h1><p class="muted">Eval suites run against golden sets generated from the vertical pack in an isolated organization. Numbers are recorded as measured; nothing is inflated.</p></div>
+  <div class="actions">{{if .CanAction "qa.run"}}<form method="post" action="/quality/run"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn" type="submit" {{if .Data.Running}}disabled{{end}}>{{if .Data.Running}}Running…{{else}}Run evals ({{if .Data.Live}}live + demo{{else}}demo{{end}}){{end}}</button></form>{{end}}</div>
+</div>
+{{if .Data.Running}}<section class="card" data-job="{{.Data.Running.ID}}"><p><span class="spinner" aria-hidden="true"></span> Eval job <span class="mono">{{trunc .Data.Running.ID 8}}</span> is {{.Data.Running.Status}} · {{.Data.Running.Progress}}% {{.Data.Running.Log}}</p></section>{{end}}
+<div class="grid-2-1">
+  <section class="card">
+    <header class="card-head"><h2>Reports</h2></header>
+    {{range .Data.Reports}}
+    <article class="block">
+      <header><span class="pill {{if .Passed}}ok{{else}}danger{{end}}">{{if .Passed}}✓ targets met{{else}}× below target{{end}}</span> <b>{{datetime .CreatedAt}}</b> <span class="muted mono">{{.Mode}}</span></header>
+      <table class="table compact"><thead><tr><th>Suite</th><th>Result</th><th>Metrics</th></tr></thead><tbody>
+      {{range .Suites}}<tr><td>{{.Suite}}</td><td>{{if .Passed}}<span class="ok">pass</span>{{else}}<span class="danger">fail</span>{{end}}</td><td class="mono small wrap">{{.Metrics}}</td></tr>{{end}}
+      </tbody></table>
+    </article>
+    {{else}}{{template "empty" (dict "Title" "No eval reports yet" "Why" "Run the evals to measure extraction, injection resistance, retrieval, answer grounding and library reuse against the golden set.")}}{{end}}
+  </section>
+  <aside class="stack">
+    <section class="card">
+      <header class="card-head"><h2>Targets</h2></header>
+      <table class="table compact"><tbody>{{range .Data.Targets}}<tr><td>{{replace .Key "_" " "}}</td><td class="mono">{{if .Upper}}≤{{else}}≥{{end}} {{.Value}}</td></tr>{{end}}</tbody></table>
+    </section>
+    {{if .Data.LatestMD}}<section class="card"><header class="card-head"><h2>Latest report</h2></header><pre class="report mono">{{.Data.LatestMD}}</pre></section>{{end}}
+  </aside>
+</div>
+{{end}}

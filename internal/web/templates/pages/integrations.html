@@ -1,0 +1,20 @@
+{{define "content"}}
+<div class="page-head"><div><p class="eyebrow">Adapters</p><h1>Integrations</h1><p class="muted">Every adapter has a local fallback; removing credentials never breaks the demo.</p></div></div>
+<section class="card">
+  <table class="table">
+    <thead><tr><th>Integration</th><th>State</th><th>Detail</th><th>Fallback</th></tr></thead>
+    <tbody>{{range .Data.Items}}<tr><td><b>{{.Name}}</b></td><td><span class="pill {{tone .State}}">{{.State}}</span></td><td class="wrap">{{.Detail}}</td><td class="muted">{{.Fallback}}</td></tr>{{end}}</tbody>
+  </table>
+</section>
+<div class="grid-2-1">
+  <section class="card">
+    <header class="card-head"><h2>Job runner</h2><span class="muted mono">{{.Data.Cfg.Workers}} workers · cron endpoint {{if .Data.Cfg.Cron}}enabled{{else}}disabled (set CRON_SECRET){{end}}</span></header>
+    <ul class="board">{{range $k, $v := .Data.JobCounts}}<li><span>{{status $k}}</span><b>{{$v}}</b></li>{{end}}</ul>
+    <table class="table compact mono"><thead><tr><th>Type</th><th>Status</th><th>Attempts</th><th>Progress</th><th>Updated</th></tr></thead><tbody>{{range .Data.Jobs}}<tr><td>{{.Type}}</td><td>{{template "pill" .Status}}</td><td>{{.Attempts}}/{{.MaxAttempts}}</td><td>{{.Progress}}%{{if .Error}} <span class="danger">{{trunc .Error 60}}</span>{{end}}</td><td class="muted">{{ago .UpdatedAt}}</td></tr>{{else}}<tr><td colspan="5" class="muted">No jobs yet.</td></tr>{{end}}</tbody></table>
+  </section>
+  <section class="card">
+    <header class="card-head"><h2>Inbox intake</h2></header>
+    <p class="muted">With <code>ENABLE_EMAIL_INTAKE=true</code>, files dropped into <span class="mono">{{.Data.Cfg.Inbox}}</span> become draft bids awaiting confirmation. Buyer files are always untrusted.</p>
+  </section>
+</div>
+{{end}}

@@ -1,0 +1,8 @@
+[
+  {"id": "capability_fit", "label": "Practice fit", "weight": 0.25, "description": "Share of evidence-bearing requirements whose category has approved knowledge coverage."},
+  {"id": "evidence_availability", "label": "Evidence availability", "weight": 0.20, "description": "Share of requirements with Strong or Moderate evidence after retrieval."},
+  {"id": "deadline_feasibility", "label": "Deadline feasibility", "weight": 0.15, "description": "Working days remaining against the requirement volume (8 requirements per working day baseline)."},
+  {"id": "compliance_gaps", "label": "Compliance gaps", "weight": 0.15, "description": "Inverse share of mandatory requirements that still need evidence."},
+  {"id": "major_unknowns", "label": "Major unknowns", "weight": 0.10, "description": "Inverse share of unanchored, unconfirmed or unresolved items."},
+  {"id": "commercial_constraints", "label": "Fee and contract constraints", "weight": 0.15, "description": "Inverse share of fee and contract-term requirements that lack an approved position.", "humanOnly": false}
+]

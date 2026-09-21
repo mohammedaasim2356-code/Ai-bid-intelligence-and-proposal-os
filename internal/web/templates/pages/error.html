@@ -1,0 +1,8 @@
+{{define "content"}}
+<section class="card narrow center">
+  <p class="eyebrow">{{.Data.Code}}</p>
+  <h1>{{if eq .Data.Code 404}}Not found{{else if eq .Data.Code 403}}Not allowed{{else}}Something went wrong{{end}}</h1>
+  <p class="muted">{{.Data.Message}}</p>
+  <p><a class="btn" href="{{if .Viewer.OK}}/dashboard{{else}}/{{end}}">Back to {{if .Viewer.OK}}overview{{else}}home{{end}}</a></p>
+</section>
+{{end}}

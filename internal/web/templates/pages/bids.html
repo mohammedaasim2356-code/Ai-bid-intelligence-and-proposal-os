@@ -1,0 +1,37 @@
+{{define "content"}}
+<div class="page-head">
+  <div><p class="eyebrow">Pipeline</p><h1>Bids</h1></div>
+  <div class="actions">
+    <nav class="chips" aria-label="Filter">
+      <a href="/bids" {{if eq .Data.Status ""}}class="active"{{end}}>All</a>
+      <a href="/bids?status=active" {{if eq .Data.Status "active"}}class="active"{{end}}>Active</a>
+      <a href="/bids?status=closed_won" {{if eq .Data.Status "closed_won"}}class="active"{{end}}>Won</a>
+      <a href="/bids?status=closed_lost" {{if eq .Data.Status "closed_lost"}}class="active"{{end}}>Lost</a>
+    </nav>
+    {{if .CanAction "bid.create"}}<a class="btn" href="/bids/new">New bid</a>{{end}}
+  </div>
+</div>
+{{if .Data.Bids}}
+<section class="card">
+<table class="table">
+  <thead><tr><th>Bid</th><th>Owner</th><th>Status</th><th>Requirements</th><th>Coverage</th><th>QA</th><th>Deadline</th><th></th></tr></thead>
+  <tbody>
+  {{range .Data.Bids}}
+  <tr>
+    <td><a href="/bids/{{.Bid.ID}}"><b>{{.Bid.Name}}</b></a><br><span class="muted">{{.Bid.BuyerName}} · {{money .Bid.EstimatedValue}}</span></td>
+    <td>{{if .Owner.Name}}<span class="avatar small">{{initials .Owner.Name}}</span> {{.Owner.Name}}{{else}}<span class="muted">unassigned</span>{{end}}</td>
+    <td>{{template "pill" .Bid.Status}}</td>
+    <td>{{.Total}}<span class="muted"> · {{.Mandatory}} mandatory</span>{{if .Unanchored}}<br><span class="warn">{{.Unanchored}} unanchored</span>{{end}}</td>
+    <td class="w-progress">{{progress .CoveragePct ""}}<span class="muted mono">{{.Approved}} approved · {{.NeedsEvidence}} need evidence</span></td>
+    <td>{{if .Blockers}}<span class="pill danger">{{.Blockers}} blockers</span>{{else if .Warnings}}<span class="pill warn">{{.Warnings}} warnings</span>{{else}}<span class="muted">—</span>{{end}}</td>
+    <td>{{if .Bid.Deadline}}{{date .Bid.Deadline}}<br><span class="muted">{{.DaysLeft}} days</span>{{else}}<span class="muted">—</span>{{end}}</td>
+    <td><a class="btn small ghost" href="{{.PrimaryLink}}">{{.PrimaryAction}}</a></td>
+  </tr>
+  {{end}}
+  </tbody>
+</table>
+</section>
+{{else}}
+{{template "empty" (dict "Title" "No bids match" "Why" "Bids hold the RFP, its extracted requirements, evidence-backed answers, QA and exports." "Href" "/bids/new" "Action" "Create a bid")}}
+{{end}}
+{{end}}

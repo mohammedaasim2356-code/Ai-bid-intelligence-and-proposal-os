@@ -1,0 +1,55 @@
+{{define "content"}}
+{{$d := .Data.Doc}}{{$pack := .Data.Pack}}
+<div class="page-head">
+  <div><p class="eyebrow"><a href="/knowledge">Knowledge</a> / {{$d.Category}} · v{{$d.Version}} · {{$d.SourceType}}</p><h1>{{$d.Name}}</h1>
+    <p class="meta-row"><span class="pill {{if eq $d.ApprovalState "approved"}}ok{{else if eq $d.ApprovalState "rejected"}}danger{{else}}warn{{end}}">{{$d.ApprovalState}}</span>{{if $d.ExpiresAt}}<span class="pill {{if .Data.Expired}}danger{{else}}muted{{end}}">{{if .Data.Expired}}expired {{end}}{{$d.ExpiresAt}}</span>{{end}}{{if $d.ClientDisclosure}}<span class="pill {{if eq $d.ClientDisclosure "do_not_use"}}danger{{else}}muted{{end}}">disclosure: {{$d.ClientDisclosure}}</span>{{end}}<span class="mono muted">trust: {{$d.Trust}} · {{len .Data.Chunks}} chunks · {{ago $d.CreatedAt}}</span></p></div>
+  <div class="actions">
+    <a class="btn ghost" href="/documents/{{$d.ID}}/download">Download</a>
+    {{if .CanAction "library.edit"}}
+    <form method="post" action="/knowledge/{{$d.ID}}/approval" class="inline"><input type="hidden" name="_csrf" value="{{.CSRF}}">
+      {{if ne $d.ApprovalState "approved"}}<button class="btn" name="state" value="approved">Approve</button>{{end}}
+      {{if ne $d.ApprovalState "rejected"}}<button class="btn ghost danger" name="state" value="rejected" data-confirm="Reject this document? Answers citing it will be flagged for re-review.">Reject</button>{{end}}
+    </form>
+    {{end}}
+  </div>
+</div>
+<div class="grid-2-1">
+  <section class="card reader">
+    <header class="card-head"><h2>Chunks</h2><span class="muted mono">locators preserved for citations</span></header>
+    {{range .Data.Chunks}}<article class="chunk" id="{{.ID}}"><span class="mono muted loc">{{if .SectionPath}}{{.SectionPath}}{{end}}{{if .PageNumber}} · p{{.PageNumber}}{{end}}{{if .CellRange}} · {{.SheetName}}!{{.CellRange}}{{end}}{{if .EmbeddingModelID}} · {{.EmbeddingModelID}}{{end}}</span><p>{{.Text}}</p></article>{{else}}<p class="muted">No chunks{{if $d.ParseError}}: {{$d.ParseError}}{{end}}.</p>{{end}}
+  </section>
+  <aside class="stack">
+    {{if .CanAction "library.edit"}}
+    <section class="card">
+      <header class="card-head"><h2>Metadata</h2></header>
+      <form method="post" action="/knowledge/{{$d.ID}}/meta" class="stack">
+        <input type="hidden" name="_csrf" value="{{.CSRF}}">
+        <label>Type <select name="category">{{range $pack.KnowledgeTypes}}<option value="{{.ID}}" {{selected .ID $d.Category}}>{{.Label}}</option>{{end}}</select></label>
+        <label>Expires <input type="date" name="expires_at" value="{{$d.ExpiresAt}}"></label>
+        <label>Tags <input name="tags" value="{{.Data.Tags}}"></label>
+        {{if $pack.Guardrails.ClientDisclosure}}<label>Client disclosure <select name="disclosure"><option value="" {{selected "" $d.ClientDisclosure}}>n/a</option><option value="allowed" {{selected "allowed" $d.ClientDisclosure}}>allowed</option><option value="anonymised" {{selected "anonymised" $d.ClientDisclosure}}>anonymised only</option><option value="do_not_use" {{selected "do_not_use" $d.ClientDisclosure}}>do not use</option></select></label>{{end}}
+        <button class="btn small" type="submit">Save</button>
+      </form>
+    </section>
+    {{end}}
+    {{if .CanAction "doc.upload"}}
+    <section class="card">
+      <header class="card-head"><h2>New version</h2></header>
+      <form method="post" action="/knowledge/{{$d.ID}}/version" enctype="multipart/form-data" class="stack">
+        <input type="hidden" name="_csrf" value="{{.CSRF}}">
+        <label>File <input type="file" name="file" required></label>
+        <button class="btn small ghost" type="submit">Upload v{{add $d.Version 1}}</button>
+        <p class="muted small">The new version starts unapproved; citing answers are flagged for re-review.</p>
+      </form>
+    </section>
+    {{end}}
+    <section class="card">
+      <header class="card-head"><h2>Cited by</h2></header>
+      <ul class="mini">{{range .Data.Cites}}<li><a href="/bids/{{.Req.BidID}}/requirements?req={{.Req.ID}}"><span class="mono">{{.Req.Code}}</span> {{trunc .Req.Text 60}}</a> {{template "pill" .Answer.Status}}</li>{{else}}<li class="muted">No answers cite this document.</li>{{end}}</ul>
+    </section>
+    {{if .CanAction "library.edit"}}
+    <form method="post" action="/knowledge/{{$d.ID}}/delete" data-confirm="Delete this document and its chunks? Citing answers will need re-review."><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn ghost danger small" type="submit">Delete document</button></form>
+    {{end}}
+  </aside>
+</div>
+{{end}}
